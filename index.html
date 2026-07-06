@@ -174,6 +174,7 @@
             border-radius: 14px;
             border: 3px solid #4d351e;
             box-shadow: inset 0 0 0 2px #2d1f14;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -190,6 +191,7 @@
             flex: 1;
             text-align: center;
             letter-spacing: 0.5px;
+            min-width: 120px;
         }
         .tab-btn:hover {
             color: #d4c9b0;
@@ -538,6 +540,35 @@
             word-break: break-word;
         }
 
+        /* ========== 服务器历史样式 ========== */
+        .history-list {
+            margin-top: 6px;
+        }
+        .history-item {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(60, 40, 25, 0.5);
+            gap: 20px;
+            align-items: baseline;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .history-date {
+            color: #b8d98a;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            min-width: 150px;
+            flex-shrink: 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .history-desc {
+            color: #d4c9b0;
+            font-size: 11px;
+            line-height: 1.6;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
         /* ========== Toast ========== */
         .toast {
             position: fixed;
@@ -577,7 +608,9 @@
             .address-panel { width: 100%; max-width: 380px; }
             .intro-section { padding: 18px 16px; }
             .intro-text { font-size: 11px; line-height: 1.9; }
-            .tab-btn { font-size: 12px; padding: 10px 16px; }
+            .tab-btn { font-size: 12px; padding: 10px 16px; min-width: 80px; }
+            .history-item { flex-direction: column; gap: 4px; padding: 12px 0; }
+            .history-date { min-width: auto; }
         }
 
         @media (max-width: 550px) {
@@ -591,9 +624,11 @@
             .action-btn { font-size: 10px; padding: 10px 18px; gap: 6px; }
             .footer-actions { gap: 10px 12px; }
             .toast { font-size: 11px; padding: 12px 20px; white-space: normal; max-width: 90%; }
-            .tab-btn { font-size: 10px; padding: 8px 10px; }
+            .tab-btn { font-size: 10px; padding: 8px 10px; min-width: 60px; }
             .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
             .modal-meta { grid-template-columns: 1fr; gap: 6px; }
+            .history-date { font-size: 10px; }
+            .history-desc { font-size: 10px; }
         }
 
         @media (max-width: 400px) {
@@ -654,6 +689,7 @@
         <div class="tabs" role="tablist">
             <button class="tab-btn active" data-tab="home" role="tab">🏠 主页</button>
             <button class="tab-btn" data-tab="gallery" role="tab">🖼️ 相册</button>
+            <button class="tab-btn" data-tab="history" role="tab">📜 服务器历史</button>
         </div>
 
         <!-- ====== 标签页：主页 ====== -->
@@ -689,11 +725,11 @@
             </section>
 
             <div class="footer-actions">
-                <a href="www.mdc-mc.cc.cd/liuyanban.html" class="action-btn board" target="_blank"><span class="icon">📝</span> 留言板</a>
+                <a href="https://v.wjx.cn/vm/tHMyHbk.aspx#" class="action-btn board" target="_blank"><span class="icon">📝</span> 留言板</a>
                 <a href="https://modern-craft.fandom.com/zh" class="action-btn wiki" target="_blank"><span class="icon">📚</span> Wiki</a>
                 <a href="https://v.wjx.cn/vm/tgbSTed.aspx" class="action-btn feedback" target="_blank"><span class="icon">💬</span> 反馈 / 举报</a>
                 <a href="https://modrinth.com/server/mdc" class="action-btn modrinth" target="_blank"><span class="icon">⬡</span> Modrinth</a>
-                <a href="https://modrinth.com/server/mdc" class="action-btn mciplist" target="_blank"><span class="icon">⬡</span> MCIPList</a>
+                <a href="https://www.minecraftiplist.com/server/39267" class="action-btn mciplist" target="_blank"><span class="icon">⬡</span> MCIPList</a>
             </div>
         </div>
 
@@ -710,6 +746,16 @@
                 <div class="gallery-empty">
                     <span class="big-icon">🖼️</span>
                     正在加载相册...
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== 标签页：服务器历史 ====== -->
+        <div id="history" class="tab-content" role="tabpanel">
+            <div class="intro-section" style="margin-bottom:0;">
+                <h2 class="intro-title">📜 <span>服务器历史</span> · 更新日志</h2>
+                <div class="intro-text history-list" id="historyContent">
+                    <!-- 由 JavaScript 动态渲染 -->
                 </div>
             </div>
         </div>
@@ -731,7 +777,8 @@
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = {
                 home: document.getElementById('home'),
-                gallery: document.getElementById('gallery')
+                gallery: document.getElementById('gallery'),
+                history: document.getElementById('history')
             };
 
             tabBtns.forEach(btn => {
@@ -747,25 +794,16 @@
             });
 
             // ============================
-            // 2. 相册数据配置（包含四个属性）
+            // 2. 相册数据配置
             // ============================
-            // ★★★ 在这里配置你的照片列表 ★★★
-            // 每个对象需包含：src, player, description, coordinates, date
-            // 示例：
             const photoList = [
+                // 示例数据，请替换为实际照片
                 // {
                 //     src: 'gallery/2024_01.jpg',
                 //     player: 'Alice',
                 //     description: '主城夜景',
                 //     coordinates: '100, 64, 200',
                 //     date: '2024-01-15'
-                // },
-                // {
-                //     src: 'gallery/2024_02.png',
-                //     player: 'Bob',
-                //     description: '大型红石农场',
-                //     coordinates: ' -500, 70, 1200',
-                //     date: '2024-02-20'
                 // }
 				{
                     src: 'gallery/2026-02-16_18.31.35.png',
@@ -775,7 +813,7 @@
                     date: '2026-2-16'
                 },
 				{
-                    src: 'https://cdn-alt.modrinth.com/data/oJmatRXy/images/55174a168eb3bdf61bc1ac1ee6fa3fd6a54111d5.png',
+                    src: 'gallery/55174a168eb3bdf61bc1ac1ee6fa3fd6a54111d5.png',
                     player: 'GJ64_Minecraft',
                     description: 'Villages and cities',
                     coordinates: 'Around 0,0',
@@ -784,14 +822,14 @@
 				{
                     src: 'gallery/414a-432ss251019.png',
                     player: 'GJ64_Minecraft',
-                    description: '日落',
+                    description: '日落（背景图）',
                     coordinates: '414,-432',
                     date: '2025-10-19'
                 },		
 				{
                     src: 'gallery/405a-312 sr251019.png',
                     player: 'GJ64_Minecraft',
-                    description: '日出 (SEUS PTGI HRR GFME)(背景图)',
+                    description: '日出 (SEUS PTGI HRR GFME)',
                     coordinates: '405,-312',
                     date: '2025-10-19'
                 },
@@ -800,7 +838,7 @@
                     player: 'GJ64_Minecraft',
                     description: '史诗地形 · 雪山',
                     coordinates: '15148.780,364.87500,6744.953',
-                    date: '2024-01-15'
+                    date: '2024-08-15'
                 },
 				{
                     src: 'gallery/我的世界城市 1_5_RoosterGroup_来自小红书网页版.jpg',
@@ -885,9 +923,7 @@
                     div.appendChild(img);
                     div.appendChild(meta);
 
-                    // 点击卡片打开模态框
                     div.addEventListener('click', function(e) {
-                        // 防止点到内部按钮等
                         openModal(index);
                     });
 
@@ -931,11 +967,61 @@
                 if (e.key === 'Escape') closeModal();
             });
 
-            // 初次渲染
             renderGallery();
 
             // ============================
-            // 5. 复制功能
+            // 5. 渲染服务器历史
+            // ============================
+            const historyData = [
+                { date: '2026-7-6', desc: '加入反外挂插件，防止打服。' },
+                { date: '2026-7-5', desc: '建立Modern Craft官网' },
+                { date: '2026-6-21', desc: '因为地形数据包的更新，重新升级至1.21.11并支持进入版本至26.2。' },
+                { date: '2026-4-11 16:11', desc: '加入26.1.2支持，服务器版本现在为1.21.10-26.1.2。' },
+                { date: '2026-4-5', desc: '加入昼夜长短控制。昼夜长短由原版更改到昼长25分钟，夜长20分钟。现在睡觉由原版直接跳过改为慢慢加速。' },
+                { date: '2026-4-1 21:20', desc: '加入26.1.1支持，服务器版本现在为1.21.10-26.1.1。' },
+                { date: '2026-3-22', desc: '建立Wiki' },
+                { date: '2026-3-21', desc: '加入玩家举报/问题反馈/提建议/Bug报告链接' },
+                { date: '2026-3-19', desc: '加入1000+成就数据包。翻译及优化工作持续进行。' },
+                { date: '2026-1-24', desc: '升级Minecraft 1.21.10，客户端兼容至1.21.11。新内容：更多的铜方块、铜傀儡等。' },
+                { date: '2026-1-28', desc: '因为升级1.21.11后存在太阳不动的Bug，回滚Paper-1.21.10-74。' },
+                { date: '2026-1-24', desc: '修改地形数据包的一个函数以支持1.21.9+，升级Paper-1.21.11-99。' },
+                { date: '2025-10-15', desc: '升级paper-1.21.10-74，但是因为被地形数据包卡脖子而升级失败报错。' },
+                { date: '2025-8-14', desc: '升级paper-1.21.8-31' },
+                { date: '2025-6-21', desc: '升级paper-1.21.5-114' },
+                { date: '2025-6-17', desc: '因为频繁的Bug改用Paper，但Bug的问题仍未解决。升级为paper-1.21.5-113。' },
+                { date: '2025-1-12', desc: '升级spigot-1.21.1.jar，出现新版图标并沿用至今。' },
+                { date: '2024-7-27', desc: '增加矿车改进的插件，能大幅提升矿车速度，加入矿车控制牌。' },
+                { date: '2024-7-14', desc: '升级spigot-1.21-R0.1-SNAPSHOT，新图标出现（为目前使用的最终版+Updated 1.21）。' },
+                { date: '2024-7-7', desc: 'MDC的图标出现' },
+                { date: '2024-6-17', desc: '升级spigot-1.20.6-R0.1-SNAPSHOT，伴随着Modern Craft Server名字，进入合成器时代。' },
+                { date: '2024-04', desc: '一个空岛服务器出现，Modern Craft Server名字首次出现，但未使用，且空岛服务器停服。' },
+                { date: '2024-2-2', desc: '加入一键砍树/挖矿插件。' },
+                { date: '2024-1-17 19:45', desc: '加入密码登录插件' },
+                { date: '2024-1-16 19:05', desc: '因为离线玩家无需密码，导致频繁被盗号、账号异地登陆、OP泛滥，升级spigot-1.20.1-R0.1-SNAPSHOT，正式变为插件服，准备加入密码登录插件。' },
+                { date: '2023-11-18', desc: '服务器更名为“SURVIVAL SERVER 1.20 MINECRAFT CITY”' },
+                { date: '2023-9-11', desc: '升级 Vanilla 1.20.1' },
+                { date: '2023-8', desc: '服务器开服' },
+                { date: '2023-8-14', desc: '这是最早可以找到的世界创建时间。' }
+            ];
+
+            const historyContainer = document.getElementById('historyContent');
+
+            function renderHistory() {
+                if (!historyContainer) return;
+                let html = '';
+                historyData.forEach(item => {
+                    html += `<div class="history-item">
+                                <span class="history-date">${item.date}</span>
+                                <span class="history-desc">${item.desc}</span>
+                             </div>`;
+                });
+                historyContainer.innerHTML = html;
+            }
+
+            renderHistory();
+
+            // ============================
+            // 6. 复制功能
             // ============================
             const copyBtns = document.querySelectorAll('.copy-btn');
             const toast = document.getElementById('toast');
