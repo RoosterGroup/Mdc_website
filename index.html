@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modern Craft · 生存服务器</title>
-    <!-- 像素风格字体 -->
+
+    <!-- ===== 网站图标（Favicon）配置 ===== -->
+    <link rel="icon" type="image/png" sizes="64x64" href="mdc64.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="mdc64.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="mdc64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="mdc64.png" />
+
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+
     <style>
         /* ========== 全局重置 & 基础 ========== */
         * {
@@ -22,17 +29,15 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            /* 背景图 — mdc1.png */
             background-image: url('mdc1.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            /* 备用纯色 */
             background-color: #1a120e;
         }
 
-        /* ========== 主容器 — 半透明 "游戏菜单" 面板 ========== */
+        /* ========== 主容器 ========== */
         .container {
             max-width: 1200px;
             width: 100%;
@@ -42,10 +47,7 @@
             border: 6px solid #6d4c2a;
             border-radius: 20px;
             padding: 30px 35px 25px;
-            box-shadow:
-                0 0 0 2px #3d2b1a,
-                0 20px 60px rgba(0, 0, 0, 0.8),
-                inset 0 0 0 2px #8b6b44;
+            box-shadow: 0 0 0 2px #3d2b1a, 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 0 0 2px #8b6b44;
             transition: all 0.2s;
             position: relative;
         }
@@ -63,7 +65,6 @@
             position: relative;
         }
 
-        /* 左 — 小 Logo (64x64) */
         .logo-small {
             flex-shrink: 0;
             width: 64px;
@@ -77,7 +78,6 @@
             image-rendering: pixelated;
         }
 
-        /* 中 — 大 Logo (1920x258) */
         .logo-large {
             flex: 1 1 auto;
             min-width: 180px;
@@ -92,7 +92,6 @@
             image-rendering: pixelated;
         }
 
-        /* 右 — 地址 + 复制按钮 */
         .address-panel {
             flex-shrink: 0;
             background: rgba(40, 28, 18, 0.75);
@@ -165,9 +164,65 @@
             transform: translateY(2px);
         }
 
-        /* ========== 服务器简介 ========== */
+        /* ========== 标签页导航 ========== */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin: 4px 0 18px 0;
+            padding: 4px;
+            background: rgba(20, 15, 10, 0.5);
+            border-radius: 14px;
+            border: 3px solid #4d351e;
+            box-shadow: inset 0 0 0 2px #2d1f14;
+        }
+
+        .tab-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 14px;
+            padding: 12px 28px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: #8a7a6a;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+            flex: 1;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .tab-btn:hover {
+            color: #d4c9b0;
+            background: rgba(60, 40, 25, 0.4);
+        }
+        .tab-btn.active {
+            background: #5a3d24;
+            color: #f5f0e1;
+            box-shadow: 0 4px 0 #2d1b0e, inset 0 2px 0 #7a5a38;
+            transform: translateY(-2px);
+        }
+        .tab-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 0px 0 #2d1b0e;
+        }
+
+        /* ========== 标签页内容容器 ========== */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== 主页样式 ========== */
         .intro-section {
-            margin: 10px 0 18px;
+            margin: 0 0 18px 0;
             padding: 22px 28px;
             background: rgba(30, 20, 12, 0.65);
             border: 4px solid #6d4c2a;
@@ -213,8 +268,15 @@
         .intro-text .label {
             color: #d4b88a;
         }
+        .intro-text ul {
+            list-style: none;
+            padding-left: 6px;
+            margin-top: 4px;
+        }
+        .intro-text ul li {
+            padding: 2px 0;
+        }
 
-        /* ========== 底部功能按钮 ========== */
         .footer-actions {
             display: flex;
             flex-wrap: wrap;
@@ -258,53 +320,225 @@
             line-height: 1;
         }
 
-        /* 每个按钮独立配色 */
-        .action-btn.board {
-            background: #3d6b8a;
-            border-color: #5a8aaa;
-            box-shadow: 0 5px 0 #1f405a;
-        }
-        .action-btn.board:hover {
-            background: #4d7b9a;
-        }
+        .action-btn.board { background: #3d6b8a; border-color: #5a8aaa; box-shadow: 0 5px 0 #1f405a; }
+        .action-btn.board:hover { background: #4d7b9a; }
+        .action-btn.wiki { background: #6d5a3a; border-color: #8d7a5a; box-shadow: 0 5px 0 #3d2a1a; }
+        .action-btn.wiki:hover { background: #7d6a4a; }
+        .action-btn.feedback { background: #6d8a4a; border-color: #8daa6a; box-shadow: 0 5px 0 #3d5a2a; }
+        .action-btn.feedback:hover { background: #7d9a5a; }
+        .action-btn.modrinth { background: #4a6a8a; border-color: #6a8aaa; box-shadow: 0 5px 0 #2a4a6a; }
+        .action-btn.modrinth:hover { background: #5a7a9a; }
+        .action-btn.mciplist { background: #6a4a6a; border-color: #8a6a8a; box-shadow: 0 5px 0 #4a2a4a; }
+        .action-btn.mciplist:hover { background: #7a5a7a; }
 
-        .action-btn.wiki {
-            background: #6d5a3a;
-            border-color: #8d7a5a;
-            box-shadow: 0 5px 0 #3d2a1a;
+        /* ========== 相册样式 ========== */
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4d351e;
         }
-        .action-btn.wiki:hover {
-            background: #7d6a4a;
+        .gallery-header h3 {
+            color: #e6d7b8;
+            font-size: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
         }
-
-        .action-btn.feedback {
+        .upload-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            padding: 10px 22px;
             background: #6d8a4a;
-            border-color: #8daa6a;
-            box-shadow: 0 5px 0 #3d5a2a;
+            border: none;
+            border-radius: 12px;
+            color: #f5f0e1;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            box-shadow: 0 4px 0 #3d5a2a, 0 3px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid #8daa6a;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
-        .action-btn.feedback:hover {
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #3d5a2a, 0 6px 20px rgba(0, 0, 0, 0.5);
             background: #7d9a5a;
         }
-
-        .action-btn.modrinth {
-            background: #4a6a8a;
-            border-color: #6a8aaa;
-            box-shadow: 0 5px 0 #2a4a6a;
-        }
-        .action-btn.modrinth:hover {
-            background: #5a7a9a;
+        .upload-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3d5a2a;
         }
 
-        .action-btn.mciplist {
-            background: #6a4a6a;
-            border-color: #8a6a8a;
-            box-shadow: 0 5px 0 #4a2a4a;
-        }
-        .action-btn.mciplist:hover {
-            background: #7a5a7a;
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 6px 0 10px 0;
         }
 
-        /* ========== Toast 复制提示 ========== */
+        .gallery-item {
+            background: rgba(30, 20, 12, 0.7);
+            border: 4px solid #4d351e;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 2px #2d1f14, 0 6px 16px rgba(0, 0, 0, 0.4);
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            border-color: #6d4c2a;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            background: #1a120e;
+            border-bottom: 3px solid #3d2b1a;
+        }
+
+        .gallery-meta {
+            padding: 12px 14px 14px 14px;
+            color: #d4c9b0;
+            font-size: 9px;
+            font-family: 'Press Start 2P', monospace;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            background: rgba(10, 8, 6, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .gallery-meta .meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px dashed rgba(90, 70, 50, 0.3);
+            padding-bottom: 2px;
+        }
+        .gallery-meta .meta-row:last-child {
+            border-bottom: none;
+        }
+        .gallery-meta .label {
+            color: #a0907a;
+            font-size: 8px;
+            letter-spacing: 0.5px;
+        }
+        .gallery-meta .value {
+            color: #e6d7b8;
+            font-size: 9px;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .gallery-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #7a6a5a;
+            font-size: 14px;
+            background: rgba(30, 20, 12, 0.4);
+            border-radius: 16px;
+            border: 3px dashed #4d351e;
+        }
+        .gallery-empty .big-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        /* ========== 模态框（图片放大） ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 6, 0.9);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(30, 20, 12, 0.95);
+            border: 6px solid #6d4c2a;
+            border-radius: 20px;
+            box-shadow: 0 0 0 2px #3d2b1a, 0 30px 80px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            position: relative;
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 24px;
+            color: #d4c9b0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            z-index: 10;
+            font-family: 'Press Start 2P', monospace;
+            transition: transform 0.2s;
+        }
+        .modal-close:hover {
+            transform: scale(1.2);
+        }
+        .modal-img {
+            width: 100%;
+            object-fit: contain;
+            max-height: 60vh;
+            background: #1a120e;
+            border-bottom: 4px solid #4d351e;
+        }
+        .modal-meta {
+            padding: 20px 28px 24px 28px;
+            background: rgba(20, 15, 10, 0.6);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 24px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            color: #d4c9b0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .modal-meta .full-row {
+            grid-column: 1 / -1;
+        }
+        .modal-meta .label {
+            color: #a0907a;
+            font-size: 9px;
+        }
+        .modal-meta .value {
+            color: #e6d7b8;
+            word-break: break-word;
+        }
+
+        /* ========== Toast ========== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -338,243 +572,376 @@
 
         /* ========== 响应式 ========== */
         @media (max-width: 900px) {
-            .header {
-                flex-direction: column;
-                align-items: center;
-            }
-            .logo-large {
-                max-width: 380px;
-            }
-            .address-panel {
-                width: 100%;
-                max-width: 380px;
-            }
-            .intro-section {
-                padding: 18px 16px;
-            }
-            .intro-text {
-                font-size: 11px;
-                line-height: 1.9;
-            }
+            .header { flex-direction: column; align-items: center; }
+            .logo-large { max-width: 380px; }
+            .address-panel { width: 100%; max-width: 380px; }
+            .intro-section { padding: 18px 16px; }
+            .intro-text { font-size: 11px; line-height: 1.9; }
+            .tab-btn { font-size: 12px; padding: 10px 16px; }
         }
 
         @media (max-width: 550px) {
-            .container {
-                padding: 16px 14px 18px;
-                border-width: 4px;
-            }
-            .logo-small {
-                width: 48px;
-                height: 48px;
-            }
-            .logo-large {
-                max-width: 260px;
-            }
-            .address-text {
-                font-size: 9px;
-                padding: 3px 6px;
-            }
-            .copy-btn {
-                font-size: 8px;
-                padding: 4px 10px;
-            }
-            .intro-title {
-                font-size: 14px;
-            }
-            .intro-text {
-                font-size: 10px;
-                line-height: 1.8;
-            }
-            .action-btn {
-                font-size: 10px;
-                padding: 10px 18px;
-                gap: 6px;
-            }
-            .footer-actions {
-                gap: 10px 12px;
-            }
-            .toast {
-                font-size: 11px;
-                padding: 12px 20px;
-                white-space: normal;
-                max-width: 90%;
-            }
+            .container { padding: 16px 14px 18px; border-width: 4px; }
+            .logo-small { width: 48px; height: 48px; }
+            .logo-large { max-width: 260px; }
+            .address-text { font-size: 9px; padding: 3px 6px; }
+            .copy-btn { font-size: 8px; padding: 4px 10px; }
+            .intro-title { font-size: 14px; }
+            .intro-text { font-size: 10px; line-height: 1.8; }
+            .action-btn { font-size: 10px; padding: 10px 18px; gap: 6px; }
+            .footer-actions { gap: 10px 12px; }
+            .toast { font-size: 11px; padding: 12px 20px; white-space: normal; max-width: 90%; }
+            .tab-btn { font-size: 10px; padding: 8px 10px; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+            .modal-meta { grid-template-columns: 1fr; gap: 6px; }
         }
 
         @media (max-width: 400px) {
-            .address-item {
-                flex-wrap: wrap;
-                gap: 6px;
-            }
-            .address-text {
-                flex: 1 1 100%;
-                text-align: center;
-            }
-            .copy-btn {
-                flex: 1 1 auto;
-                width: 100%;
-                justify-content: center;
-            }
+            .address-item { flex-wrap: wrap; gap: 6px; }
+            .address-text { flex: 1 1 100%; text-align: center; }
+            .copy-btn { flex: 1 1 auto; width: 100%; justify-content: center; }
         }
 
-        /* ========== 滚动条 (MC风格) ========== */
-        ::-webkit-scrollbar {
-            width: 12px;
-            background: #2d1f14;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #6d4c2a;
-            border: 2px solid #3d2b1a;
-            border-radius: 6px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8b6b44;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1a120e;
-        }
+        ::-webkit-scrollbar { width: 12px; background: #2d1f14; }
+        ::-webkit-scrollbar-thumb { background: #6d4c2a; border: 2px solid #3d2b1a; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8b6b44; }
+        ::-webkit-scrollbar-track { background: #1a120e; }
     </style>
 </head>
 <body>
 
-    <!-- ===== Toast 提示 ===== -->
+    <!-- ===== Toast ===== -->
     <div id="toast" class="toast">
         <span class="toast-icon">✓</span>
         <span id="toastMsg">已复制到剪贴板</span>
     </div>
 
+    <!-- ===== 模态框（图片放大） ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">✕</button>
+            <img class="modal-img" id="modalImg" src="" alt="大图" />
+            <div class="modal-meta" id="modalMeta">
+                <!-- 由 JavaScript 动态填充 -->
+            </div>
+        </div>
+    </div>
+
     <!-- ===== 主容器 ===== -->
     <div class="container">
 
-        <!-- ====== 顶部：小Logo + 大Logo + 地址面板 ====== -->
+        <!-- ====== 顶部 ====== -->
         <header class="header">
-
-            <!-- 左：64x64 小 Logo -->
             <div class="logo-small">
                 <img src="mdc64.png" alt="Modern Craft 小徽标" />
             </div>
-
-            <!-- 中：1920x258 大 Logo -->
             <div class="logo-large">
                 <img src="mdclogo.png" alt="Modern Craft 服务器徽标" />
             </div>
-
-            <!-- 右：两个地址 + 复制按钮 -->
             <div class="address-panel">
-                <!-- 地址 1 -->
                 <div class="address-item">
                     <span class="address-text" id="addr1">mdc-mc.cc.cd</span>
                     <button class="copy-btn" data-address="mdc-mc.cc.cd">复制</button>
                 </div>
-                <!-- 地址 2 -->
                 <div class="address-item">
                     <span class="address-text" id="addr2">d.mdc-mc.cc.cd</span>
                     <button class="copy-btn" data-address="d.mdc-mc.cc.cd">复制</button>
                 </div>
             </div>
-
         </header>
 
-        <!-- ====== 服务器简介 ====== -->
-        <section class="intro-section">
-            <h2 class="intro-title">
-                ⚡ <span>Modern Craft</span> · 生存服务器
-            </h2>
-            <div class="intro-text">
-                <p>
-                    欢迎来到 <span class="highlight">Modern Craft</span> —— 一个以 <span class="mc-green">生存</span> 为核心的 Minecraft 服务器。
-                </p>
-                <p style="margin-top:8px;">
-                    <span class="label">📌 版本：</span><span class="mc-green">Java 版 1.21.11+</span> ｜
-                    <span class="label">🔐 密码保护</span> ｜
-                    <span class="label">🌍 全球同服</span> ｜
-                    <span class="label">📱 多端可登</span>
-                </p>
-                <p style="margin-top:10px;">
-                    基本游戏玩法：建筑与红石机器。但是在这个服务器中，你也可以按你自己喜欢的玩法游玩。
-                </p>
-                <p style="margin-top:6px;">
-                    你可以建造任何你想建造的东西，比如城市、城镇、村庄或改善现有的城市。
-                </p>
-                <p style="margin-top:10px;">
-                    🏛 我们致力于打造 <span class="mc-green">公平、友好、长期</span> 的生存社区。
-                    无论你是建筑大师、红石工程师，还是探险家，这里都有你的一席之地。
-                </p>
-                <p style="margin-top:12px;">
-                    <span class="label">🏗️ 特色：</span>
-                </p>
-                <ul style="list-style:none; padding-left:6px; margin-top:4px;">
-                    <li>⛏ 在砍伐树木或采矿时，按Shift键可以启用连锁挖掘。</li>
-                    <li>🏪 支持/shop商店网购物品，无需四处寻找物品。</li>
-                    <li>🏞 超真实史诗地形，地形生成最高500格，地下最低-128格。可建造范围使-128至1920，约为原版的5倍。</li>
-                    <li>💾 服务器会自动备份，且服务器有人值守。</li>
-                    <li>🔨 使用锻造台可以将工具和盔甲从铁升级为钻石（剑可以将石头或铁升级为钻石），同时保留附魔。</li>
-                    <li>📜 你可以看到你的工具或盔甲统计数据，如合成日期、造成的伤害、挖掘的方块、击杀的玩家等。</li>
-                    <li>🖼 网图转地图画。详见Wiki。</li>
-                    <li>💬 发出的消息会短暂的在头顶显示。</li>
-                </ul>
-                <p style="margin-top:12px;">
-                    <span class="label">📈 优势：</span>永不停服 ｜ 永不删档 ｜ 快速处理故障 ｜ 更新快速
-                </p>
-                <p style="margin-top:12px; font-size:11px; color:#b8a88a;">
-                    ✅ 您可以加入服务器QQ群 <span class="mc-green">1016992834</span> 或查看服务器Wiki以了解更多信息。QQ群的处理速度更快。
-                </p>
-                <p style="margin-top:8px; font-size:11px; color:#6a5a4a;">
-                    🕒 开服于 <span class="mc-green">2023年8月</span>
-                </p>
+        <!-- ====== 标签页导航 ====== -->
+        <div class="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="home" role="tab">🏠 主页</button>
+            <button class="tab-btn" data-tab="gallery" role="tab">🖼️ 相册</button>
+        </div>
+
+        <!-- ====== 标签页：主页 ====== -->
+        <div id="home" class="tab-content active" role="tabpanel">
+            <section class="intro-section">
+                <h2 class="intro-title">⚡ <span>Modern Craft</span> · 生存服务器</h2>
+                <div class="intro-text">
+                    <p>欢迎来到 <span class="highlight">Modern Craft</span> —— 一个以 <span class="mc-green">生存</span> 为核心的 Minecraft 服务器。</p>
+                    <p style="margin-top:8px;">
+                        <span class="label">📌 版本：</span><span class="mc-green">Java 版 1.21.11+</span> ｜
+                        <span class="label">🔐 密码保护</span> ｜
+                        <span class="label">🌍 全球同服</span> ｜
+                        <span class="label">📱 多端可登</span>
+                    </p>
+                    <p style="margin-top:10px;">基本游戏玩法：建筑与红石机器。但是在这个服务器中，你也可以按你自己喜欢的玩法游玩。</p>
+                    <p style="margin-top:6px;">你可以建造任何你想建造的东西，比如城市、城镇、村庄或改善现有的城市。</p>
+                    <p style="margin-top:10px;">🏛 我们致力于打造 <span class="mc-green">公平、友好、长期</span> 的生存社区。 无论你是建筑大师、红石工程师，还是探险家，这里都有你的一席之地。</p>
+                    <p style="margin-top:12px;"><span class="label">🏗️ 特色：</span></p>
+                    <ul>
+                        <li>⛏ 在砍伐树木或采矿时，按Shift键可以启用连锁挖掘。</li>
+                        <li>🏪 支持/shop商店网购物品，无需四处寻找物品。</li>
+                        <li>🏞 超真实史诗地形，地形生成最高500格，地下最低-128格。可建造范围使-128至1920，约为原版的5倍。</li>
+                        <li>💾 服务器会自动备份，且服务器有人值守。</li>
+                        <li>🔨 使用锻造台可以将工具和盔甲从铁升级为钻石（剑可以将石头或铁升级为钻石），同时保留附魔。</li>
+                        <li>📜 你可以看到你的工具或盔甲统计数据，如合成日期、造成的伤害、挖掘的方块、击杀的玩家等。</li>
+                        <li>🖼 网图转地图画。详见Wiki。</li>
+                        <li>💬 发出的消息会短暂的在头顶显示。</li>
+                    </ul>
+                    <p style="margin-top:12px;"><span class="label">📈 优势：</span>永不停服 ｜ 永不删档 ｜ 快速处理故障 ｜ 更新快速</p>
+                    <p style="margin-top:12px; font-size:11px; color:#b8a88a;">✅ 您可以加入服务器QQ群 <span class="mc-green">1016992834</span> 或查看服务器Wiki以了解更多信息。QQ群的处理速度更快。</p>
+                    <p style="margin-top:8px; font-size:11px; color:#6a5a4a;">🕒 开服于 <span class="mc-green">2023年8月</span></p>
+                </div>
+            </section>
+
+            <div class="footer-actions">
+                <a href="www.mdc-mc.cc.cd/liuyanban.html" class="action-btn board" target="_blank"><span class="icon">📝</span> 留言板</a>
+                <a href="https://modern-craft.fandom.com/zh" class="action-btn wiki" target="_blank"><span class="icon">📚</span> Wiki</a>
+                <a href="https://v.wjx.cn/vm/tgbSTed.aspx" class="action-btn feedback" target="_blank"><span class="icon">💬</span> 反馈 / 举报</a>
+                <a href="https://modrinth.com/server/mdc" class="action-btn modrinth" target="_blank"><span class="icon">⬡</span> Modrinth</a>
+                <a href="https://modrinth.com/server/mdc" class="action-btn mciplist" target="_blank"><span class="icon">⬡</span> MCIPList</a>
             </div>
-        </section>
+        </div>
 
-        <!-- ====== 底部功能按钮 ====== -->
-        <div class="footer-actions">
-
-            <!-- 留言板 -->
-            <a href="www.mdc-mc.cc.cd/liuyanban.html" class="action-btn board" target="_blank">
-                <span class="icon">📝</span> 留言板
-            </a>
-
-            <!-- Wiki -->
-            <a href="https://modern-craft.fandom.com/zh" class="action-btn wiki" target="_blank">
-                <span class="icon">📚</span> Wiki
-            </a>
-
-            <!-- 反馈 & 举报 合并 -->
-            <a href="https://v.wjx.cn/vm/tgbSTed.aspx" class="action-btn feedback" target="_blank">
-                <span class="icon">💬</span> 反馈 / 举报
-            </a>
-
-            <!-- Modrinth -->
-            <a href="https://modrinth.com/server/mdc" class="action-btn modrinth" target="_blank">
-                <span class="icon">⬡</span> Modrinth
-            </a>
-
-            <!-- MCIPList -->
-            <a href="https://modrinth.com/server/mdc" class="action-btn mciplist" target="_blank">
-                <span class="icon">⬡</span> MCIPList
-            </a>
-
+        <!-- ====== 标签页：相册 ====== -->
+        <div id="gallery" class="tab-content" role="tabpanel">
+            <div class="gallery-header">
+                <h3>📸 服务器相册</h3>
+                <a href="https://v.wjx.cn/vm/Q5FX50S.aspx#" class="upload-btn" target="_blank">
+                    <span>⬆</span> 上传照片
+                </a>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- 由 JavaScript 动态渲染 -->
+                <div class="gallery-empty">
+                    <span class="big-icon">🖼️</span>
+                    正在加载相册...
+                </div>
+            </div>
         </div>
 
         <!-- 页脚装饰 -->
-        <div style="margin-top:14px; text-align:center; font-size:9px; color:#5a4a3a; letter-spacing:2px; border-top:2px solid #3d2b1a; padding-top:12px;">
+        <div style="margin-top:16px; text-align:center; font-size:9px; color:#5a4a3a; letter-spacing:2px; border-top:2px solid #3d2b1a; padding-top:12px;">
             ◆ ◆ ◆  Modern Craft  ·  since 2023  ◆ ◆ ◆
         </div>
 
     </div>
 
-    <!-- ===== JavaScript ===== -->
     <script>
         (function() {
             'use strict';
 
-            // -------- 获取所有复制按钮 --------
+            // ============================
+            // 1. 标签页切换
+            // ============================
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = {
+                home: document.getElementById('home'),
+                gallery: document.getElementById('gallery')
+            };
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    if (!tabId || !tabContents[tabId]) return;
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    Object.keys(tabContents).forEach(key => {
+                        tabContents[key].classList.toggle('active', key === tabId);
+                    });
+                });
+            });
+
+            // ============================
+            // 2. 相册数据配置（包含四个属性）
+            // ============================
+            // ★★★ 在这里配置你的照片列表 ★★★
+            // 每个对象需包含：src, player, description, coordinates, date
+            // 示例：
+            const photoList = [
+                // {
+                //     src: 'gallery/2024_01.jpg',
+                //     player: 'Alice',
+                //     description: '主城夜景',
+                //     coordinates: '100, 64, 200',
+                //     date: '2024-01-15'
+                // },
+                // {
+                //     src: 'gallery/2024_02.png',
+                //     player: 'Bob',
+                //     description: '大型红石农场',
+                //     coordinates: ' -500, 70, 1200',
+                //     date: '2024-02-20'
+                // }
+				{
+                    src: 'gallery/2026-02-16_18.31.35.png',
+                    player: 'GJ64_Minecraft',
+                    description: '森林（+光影）',
+                    coordinates: '-14,70,370',
+                    date: '2026-2-16'
+                },
+				{
+                    src: 'https://cdn-alt.modrinth.com/data/oJmatRXy/images/55174a168eb3bdf61bc1ac1ee6fa3fd6a54111d5.png',
+                    player: 'GJ64_Minecraft',
+                    description: 'Villages and cities',
+                    coordinates: 'Around 0,0',
+                    date: '2026-10-26'
+                },
+				{
+                    src: 'gallery/414a-432ss251019.png',
+                    player: 'GJ64_Minecraft',
+                    description: '日落',
+                    coordinates: '414,-432',
+                    date: '2025-10-19'
+                },		
+				{
+                    src: 'gallery/405a-312 sr251019.png',
+                    player: 'GJ64_Minecraft',
+                    description: '日出 (SEUS PTGI HRR GFME)(背景图)',
+                    coordinates: '405,-312',
+                    date: '2025-10-19'
+                },
+				{
+                    src: 'gallery/2025-08-15_21.13.39.png',
+                    player: 'GJ64_Minecraft',
+                    description: '史诗地形 · 雪山',
+                    coordinates: '15148.780,364.87500,6744.953',
+                    date: '2024-01-15'
+                },
+				{
+                    src: 'gallery/我的世界城市 1_5_RoosterGroup_来自小红书网页版.jpg',
+                    player: 'GJ64_Minecraft',
+                    description: '主城',
+                    coordinates: '70,-330附近',
+                    date: '2023-10-28'
+                },
+				{
+                    src: 'gallery/ldm231024.bmp',
+                    player: 'GJ（服主旧号）',
+                    description: '落地马（小红书视频截图）',
+                    coordinates: '87,80,-287附近',
+                     date: '2023-10-24'
+                },
+				{
+                    src: 'gallery/n-15340231007.png',
+                    player: 'GJ（服主旧号）',
+                    description: '最早的截图 夜景',
+                    coordinates: '-15,63,340附近',
+                     date: '2023-10-07'
+                },
+            ];
+
+            // ============================
+            // 3. 渲染相册
+            // ============================
+            const galleryGrid = document.getElementById('galleryGrid');
+
+            function renderGallery() {
+                if (!galleryGrid) return;
+                galleryGrid.innerHTML = '';
+
+                if (!photoList || photoList.length === 0) {
+                    galleryGrid.innerHTML = `
+                        <div class="gallery-empty">
+                            <span class="big-icon">📂</span>
+                            相册暂无照片
+                        </div>
+                    `;
+                    return;
+                }
+
+                photoList.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'gallery-item';
+                    div.dataset.index = index;
+
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    img.alt = item.description || 'Modern Craft 截图';
+                    img.loading = 'lazy';
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const placeholder = document.createElement('div');
+                        placeholder.style.cssText = `
+                            aspect-ratio: 16/9;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background: #1a120e;
+                            color: #d4c9b0;
+                            font-size: 11px;
+                            border-bottom: 3px solid #3d2b1a;
+                            padding: 10px;
+                            text-align: center;
+                            line-height: 1.6;
+                        `;
+                        placeholder.innerHTML = '❌ 图片加载失败<br>请检查网络';
+                        this.parentNode.insertBefore(placeholder, this);
+                    };
+
+                    const meta = document.createElement('div');
+                    meta.className = 'gallery-meta';
+                    meta.innerHTML = `
+                        <div class="meta-row"><span class="label">👤 玩家</span><span class="value">${item.player || '未知'}</span></div>
+                        <div class="meta-row"><span class="label">📝 描述</span><span class="value">${item.description || '无'}</span></div>
+                        <div class="meta-row"><span class="label">📍 坐标</span><span class="value">${item.coordinates || '未记录'}</span></div>
+                        <div class="meta-row"><span class="label">📅 拍摄日期</span><span class="value">${item.date || '未知'}</span></div>
+                    `;
+
+                    div.appendChild(img);
+                    div.appendChild(meta);
+
+                    // 点击卡片打开模态框
+                    div.addEventListener('click', function(e) {
+                        // 防止点到内部按钮等
+                        openModal(index);
+                    });
+
+                    galleryGrid.appendChild(div);
+                });
+            }
+
+            // ============================
+            // 4. 模态框（图片放大）
+            // ============================
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalImg = document.getElementById('modalImg');
+            const modalMeta = document.getElementById('modalMeta');
+            const modalClose = document.getElementById('modalClose');
+
+            function openModal(index) {
+                const item = photoList[index];
+                if (!item) return;
+                modalImg.src = item.src;
+                modalImg.alt = item.description || '大图';
+                modalMeta.innerHTML = `
+                    <div class="full-row"><span class="label">👤 玩家</span> <span class="value">${item.player || '未知'}</span></div>
+                    <div class="full-row"><span class="label">📝 描述</span> <span class="value">${item.description || '无'}</span></div>
+                    <div class="full-row"><span class="label">📍 坐标</span> <span class="value">${item.coordinates || '未记录'}</span></div>
+                    <div class="full-row"><span class="label">📅 拍摄日期</span> <span class="value">${item.date || '未知'}</span></div>
+                `;
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) closeModal();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            // 初次渲染
+            renderGallery();
+
+            // ============================
+            // 5. 复制功能
+            // ============================
             const copyBtns = document.querySelectorAll('.copy-btn');
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
-
             let toastTimer = null;
 
-            // -------- 显示 Toast --------
             function showToast(msg) {
                 toastMsg.textContent = msg || '✅ 已复制到剪贴板';
                 toast.classList.add('show');
@@ -584,32 +951,6 @@
                 }, 2200);
             }
 
-            // -------- 复制功能 --------
-            copyBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const address = this.getAttribute('data-address');
-                    if (!address) return;
-
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(address)
-                            .then(() => {
-                                showToast('✅ 已复制: ' + address);
-                                this.classList.add('copied');
-                                setTimeout(() => {
-                                    this.classList.remove('copied');
-                                }, 1000);
-                            })
-                            .catch(() => {
-                                fallbackCopy(address, this);
-                            });
-                    } else {
-                        fallbackCopy(address, this);
-                    }
-                });
-            });
-
-            // -------- 降级复制 --------
             function fallbackCopy(text, btn) {
                 const textarea = document.createElement('textarea');
                 textarea.value = text;
@@ -621,16 +962,13 @@
                 document.body.appendChild(textarea);
                 textarea.focus();
                 textarea.select();
-
                 try {
                     const success = document.execCommand('copy');
                     if (success) {
                         showToast('✅ 已复制: ' + text);
                         if (btn) {
                             btn.classList.add('copied');
-                            setTimeout(() => {
-                                btn.classList.remove('copied');
-                            }, 1000);
+                            setTimeout(() => btn.classList.remove('copied'), 1000);
                         }
                     } else {
                         showToast('❌ 复制失败，请手动复制');
@@ -641,7 +979,25 @@
                 document.body.removeChild(textarea);
             }
 
-            // -------- 地址文本点击复制 --------
+            copyBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const address = this.getAttribute('data-address');
+                    if (!address) return;
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(address)
+                            .then(() => {
+                                showToast('✅ 已复制: ' + address);
+                                this.classList.add('copied');
+                                setTimeout(() => this.classList.remove('copied'), 1000);
+                            })
+                            .catch(() => fallbackCopy(address, this));
+                    } else {
+                        fallbackCopy(address, this);
+                    }
+                });
+            });
+
             document.querySelectorAll('.address-text').forEach(el => {
                 el.style.cursor = 'pointer';
                 el.addEventListener('click', function() {
@@ -652,15 +1008,15 @@
                         const btn = parent.querySelector('.copy-btn');
                         if (btn) {
                             btn.click();
-                        } else {
-                            if (navigator.clipboard && navigator.clipboard.writeText) {
-                                navigator.clipboard.writeText(text)
-                                    .then(() => showToast('✅ 已复制: ' + text))
-                                    .catch(() => showToast('❌ 复制失败'));
-                            } else {
-                                fallbackCopy(text);
-                            }
+                            return;
                         }
+                    }
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text)
+                            .then(() => showToast('✅ 已复制: ' + text))
+                            .catch(() => showToast('❌ 复制失败'));
+                    } else {
+                        fallbackCopy(text);
                     }
                 });
                 el.title = '点击复制地址';

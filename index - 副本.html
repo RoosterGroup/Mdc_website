@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Craft · 生存服务器</title>
+    <!-- 像素风格字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <style>
+        /* ========== 全局重置 & 基础 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background-color: #2d1f14;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            /* 背景图 — mdc1.png */
+            background-image: url('mdc1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* 备用纯色 */
+            background-color: #1a120e;
+        }
+
+        /* ========== 主容器 — 半透明 "游戏菜单" 面板 ========== */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(20, 15, 10, 0.82);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 6px solid #6d4c2a;
+            border-radius: 20px;
+            padding: 30px 35px 25px;
+            box-shadow:
+                0 0 0 2px #3d2b1a,
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                inset 0 0 0 2px #8b6b44;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        /* ========== 顶部区域 ========== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px 10px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 4px solid #5a3d24;
+            position: relative;
+        }
+
+        /* 左 — 小 Logo (64x64) */
+        .logo-small {
+            flex-shrink: 0;
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated;
+        }
+        .logo-small img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        /* 中 — 大 Logo (1920x258) */
+        .logo-large {
+            flex: 1 1 auto;
+            min-width: 180px;
+            max-width: 520px;
+            text-align: center;
+            margin: 0 6px;
+        }
+        .logo-large img {
+            width: 100%;
+            height: auto;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        /* 右 — 地址 + 复制按钮 */
+        .address-panel {
+            flex-shrink: 0;
+            background: rgba(40, 28, 18, 0.75);
+            border: 3px solid #6d4c2a;
+            border-radius: 14px;
+            padding: 12px 16px;
+            min-width: 200px;
+            box-shadow: inset 0 0 0 2px #3d2b1a, 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        .address-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 6px 0;
+        }
+        .address-item:first-child {
+            padding-top: 0;
+        }
+        .address-item:last-child {
+            padding-bottom: 0;
+        }
+        .address-item+.address-item {
+            border-top: 2px dashed #5a3d24;
+            padding-top: 8px;
+        }
+
+        .address-text {
+            font-size: 11px;
+            color: #f0e3c8;
+            letter-spacing: 0.5px;
+            word-break: break-all;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.35);
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #4d351e;
+            font-family: 'Press Start 2P', monospace;
+            flex: 1;
+            min-width: 60px;
+        }
+
+        .copy-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            background: #6d8f4a;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            color: #f5f0e1;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 4px 0 #3d5a2a, 0 2px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+            border: 1px solid #8db85a;
+            flex-shrink: 0;
+        }
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #3d5a2a, 0 4px 12px rgba(0, 0, 0, 0.4);
+            background: #7fa354;
+        }
+        .copy-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3d5a2a;
+        }
+        .copy-btn.copied {
+            background: #5a7a3a;
+            box-shadow: 0 2px 0 #2d4a1a;
+            transform: translateY(2px);
+        }
+
+        /* ========== 服务器简介 ========== */
+        .intro-section {
+            margin: 10px 0 18px;
+            padding: 22px 28px;
+            background: rgba(30, 20, 12, 0.65);
+            border: 4px solid #6d4c2a;
+            border-radius: 16px;
+            box-shadow: inset 0 0 0 2px #3d2b1a, 0 6px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .intro-section::before {
+            content: "⛏";
+            position: absolute;
+            top: -14px;
+            left: 20px;
+            font-size: 24px;
+            background: #2d1f14;
+            padding: 0 12px;
+            color: #c9b38a;
+            text-shadow: 0 2px 0 #1a120e;
+        }
+        .intro-title {
+            font-size: 18px;
+            color: #e6d7b8;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .intro-title span {
+            color: #a8c97a;
+        }
+        .intro-text {
+            font-size: 12px;
+            line-height: 2;
+            color: #d4c9b0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+            font-family: 'Press Start 2P', monospace;
+            letter-spacing: 0.3px;
+        }
+        .intro-text .highlight {
+            color: #b8d98a;
+        }
+        .intro-text .mc-green {
+            color: #7cb84a;
+        }
+        .intro-text .label {
+            color: #d4b88a;
+        }
+
+        /* ========== 底部功能按钮 ========== */
+        .footer-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px 20px;
+            margin-top: 10px;
+            padding-top: 14px;
+            border-top: 4px solid #5a3d24;
+        }
+
+        .action-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 12px;
+            background: #5a3d24;
+            color: #f5f0e1;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.15s;
+            box-shadow: 0 5px 0 #2d1b0e, 0 3px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid #7a5a38;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+        }
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 0 #2d1b0e, 0 6px 20px rgba(0, 0, 0, 0.5);
+            background: #6d4c2a;
+        }
+        .action-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #2d1b0e;
+        }
+        .action-btn .icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        /* 每个按钮独立配色 */
+        .action-btn.board {
+            background: #3d6b8a;
+            border-color: #5a8aaa;
+            box-shadow: 0 5px 0 #1f405a;
+        }
+        .action-btn.board:hover {
+            background: #4d7b9a;
+        }
+
+        .action-btn.wiki {
+            background: #6d5a3a;
+            border-color: #8d7a5a;
+            box-shadow: 0 5px 0 #3d2a1a;
+        }
+        .action-btn.wiki:hover {
+            background: #7d6a4a;
+        }
+
+        .action-btn.feedback {
+            background: #6d8a4a;
+            border-color: #8daa6a;
+            box-shadow: 0 5px 0 #3d5a2a;
+        }
+        .action-btn.feedback:hover {
+            background: #7d9a5a;
+        }
+
+        .action-btn.modrinth {
+            background: #4a6a8a;
+            border-color: #6a8aaa;
+            box-shadow: 0 5px 0 #2a4a6a;
+        }
+        .action-btn.modrinth:hover {
+            background: #5a7a9a;
+        }
+
+        .action-btn.mciplist {
+            background: #6a4a6a;
+            border-color: #8a6a8a;
+            box-shadow: 0 5px 0 #4a2a4a;
+        }
+        .action-btn.mciplist:hover {
+            background: #7a5a7a;
+        }
+
+        /* ========== Toast 复制提示 ========== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: rgba(20, 15, 10, 0.92);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 3px solid #8db85a;
+            border-radius: 14px;
+            padding: 14px 30px;
+            color: #f0e3c8;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 13px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            z-index: 999;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast .toast-icon {
+            margin-right: 10px;
+            color: #b8d98a;
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 900px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+            .logo-large {
+                max-width: 380px;
+            }
+            .address-panel {
+                width: 100%;
+                max-width: 380px;
+            }
+            .intro-section {
+                padding: 18px 16px;
+            }
+            .intro-text {
+                font-size: 11px;
+                line-height: 1.9;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .container {
+                padding: 16px 14px 18px;
+                border-width: 4px;
+            }
+            .logo-small {
+                width: 48px;
+                height: 48px;
+            }
+            .logo-large {
+                max-width: 260px;
+            }
+            .address-text {
+                font-size: 9px;
+                padding: 3px 6px;
+            }
+            .copy-btn {
+                font-size: 8px;
+                padding: 4px 10px;
+            }
+            .intro-title {
+                font-size: 14px;
+            }
+            .intro-text {
+                font-size: 10px;
+                line-height: 1.8;
+            }
+            .action-btn {
+                font-size: 10px;
+                padding: 10px 18px;
+                gap: 6px;
+            }
+            .footer-actions {
+                gap: 10px 12px;
+            }
+            .toast {
+                font-size: 11px;
+                padding: 12px 20px;
+                white-space: normal;
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .address-item {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .address-text {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+            .copy-btn {
+                flex: 1 1 auto;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ========== 滚动条 (MC风格) ========== */
+        ::-webkit-scrollbar {
+            width: 12px;
+            background: #2d1f14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6d4c2a;
+            border: 2px solid #3d2b1a;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b6b44;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a120e;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Toast 提示 ===== -->
+    <div id="toast" class="toast">
+        <span class="toast-icon">✓</span>
+        <span id="toastMsg">已复制到剪贴板</span>
+    </div>
+
+    <!-- ===== 主容器 ===== -->
+    <div class="container">
+
+        <!-- ====== 顶部：小Logo + 大Logo + 地址面板 ====== -->
+        <header class="header">
+
+            <!-- 左：64x64 小 Logo -->
+            <div class="logo-small">
+                <img src="mdc64.png" alt="Modern Craft 小徽标" />
+            </div>
+
+            <!-- 中：1920x258 大 Logo -->
+            <div class="logo-large">
+                <img src="mdclogo.png" alt="Modern Craft 服务器徽标" />
+            </div>
+
+            <!-- 右：两个地址 + 复制按钮 -->
+            <div class="address-panel">
+                <!-- 地址 1 -->
+                <div class="address-item">
+                    <span class="address-text" id="addr1">mdc-mc.cc.cd</span>
+                    <button class="copy-btn" data-address="mdc-mc.cc.cd">复制</button>
+                </div>
+                <!-- 地址 2 -->
+                <div class="address-item">
+                    <span class="address-text" id="addr2">d.mdc-mc.cc.cd</span>
+                    <button class="copy-btn" data-address="d.mdc-mc.cc.cd">复制</button>
+                </div>
+            </div>
+
+        </header>
+
+        <!-- ====== 服务器简介 ====== -->
+        <section class="intro-section">
+            <h2 class="intro-title">
+                ⚡ <span>Modern Craft</span> · 生存服务器
+            </h2>
+            <div class="intro-text">
+                <p>
+                    欢迎来到 <span class="highlight">Modern Craft</span> —— 一个以 <span class="mc-green">生存</span> 为核心的 Minecraft 服务器。
+                </p>
+                <p style="margin-top:8px;">
+                    <span class="label">📌 版本：</span><span class="mc-green">Java 版 1.21.11+</span> ｜
+                    <span class="label">🔐 密码保护</span> ｜
+                    <span class="label">🌍 全球同服</span> ｜
+                    <span class="label">📱 多端可登</span>
+                </p>
+                <p style="margin-top:10px;">
+                    基本游戏玩法：建筑与红石机器。但是在这个服务器中，你也可以按你自己喜欢的玩法游玩。
+                </p>
+                <p style="margin-top:6px;">
+                    你可以建造任何你想建造的东西，比如城市、城镇、村庄或改善现有的城市。
+                </p>
+                <p style="margin-top:10px;">
+                    🏛 我们致力于打造 <span class="mc-green">公平、友好、长期</span> 的生存社区。
+                    无论你是建筑大师、红石工程师，还是探险家，这里都有你的一席之地。
+                </p>
+                <p style="margin-top:12px;">
+                    <span class="label">🏗️ 特色：</span>
+                </p>
+                <ul style="list-style:none; padding-left:6px; margin-top:4px;">
+                    <li>⛏ 在砍伐树木或采矿时，按Shift键可以启用连锁挖掘。</li>
+                    <li>🏪 支持/shop商店网购物品，无需四处寻找物品。</li>
+                    <li>🏞 超真实史诗地形，地形生成最高500格，地下最低-128格。可建造范围使-128至1920，约为原版的5倍。</li>
+                    <li>💾 服务器会自动备份，且服务器有人值守。</li>
+                    <li>🔨 使用锻造台可以将工具和盔甲从铁升级为钻石（剑可以将石头或铁升级为钻石），同时保留附魔。</li>
+                    <li>📜 你可以看到你的工具或盔甲统计数据，如合成日期、造成的伤害、挖掘的方块、击杀的玩家等。</li>
+                    <li>🖼 网图转地图画。详见Wiki。</li>
+                    <li>💬 发出的消息会短暂的在头顶显示。</li>
+                </ul>
+                <p style="margin-top:12px;">
+                    <span class="label">📈 优势：</span>永不停服 ｜ 永不删档 ｜ 快速处理故障 ｜ 更新快速
+                </p>
+                <p style="margin-top:12px; font-size:11px; color:#b8a88a;">
+                    ✅ 您可以加入服务器QQ群 <span class="mc-green">1016992834</span> 或查看服务器Wiki以了解更多信息。QQ群的处理速度更快。
+                </p>
+                <p style="margin-top:8px; font-size:11px; color:#6a5a4a;">
+                    🕒 开服于 <span class="mc-green">2023年8月</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ====== 底部功能按钮 ====== -->
+        <div class="footer-actions">
+
+            <!-- 留言板 -->
+            <a href="www.mdc-mc.cc.cd/liuyanban.html" class="action-btn board" target="_blank">
+                <span class="icon">📝</span> 留言板
+            </a>
+
+            <!-- Wiki -->
+            <a href="https://modern-craft.fandom.com/zh" class="action-btn wiki" target="_blank">
+                <span class="icon">📚</span> Wiki
+            </a>
+
+            <!-- 反馈 & 举报 合并 -->
+            <a href="https://v.wjx.cn/vm/tgbSTed.aspx" class="action-btn feedback" target="_blank">
+                <span class="icon">💬</span> 反馈 / 举报
+            </a>
+
+            <!-- Modrinth -->
+            <a href="https://modrinth.com/server/mdc" class="action-btn modrinth" target="_blank">
+                <span class="icon">⬡</span> Modrinth
+            </a>
+
+            <!-- MCIPList -->
+            <a href="https://modrinth.com/server/mdc" class="action-btn mciplist" target="_blank">
+                <span class="icon">⬡</span> MCIPList
+            </a>
+
+        </div>
+
+        <!-- 页脚装饰 -->
+        <div style="margin-top:14px; text-align:center; font-size:9px; color:#5a4a3a; letter-spacing:2px; border-top:2px solid #3d2b1a; padding-top:12px;">
+            ◆ ◆ ◆  Modern Craft  ·  since 2023  ◆ ◆ ◆
+        </div>
+
+    </div>
+
+    <!-- ===== JavaScript ===== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // -------- 获取所有复制按钮 --------
+            const copyBtns = document.querySelectorAll('.copy-btn');
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+
+            let toastTimer = null;
+
+            // -------- 显示 Toast --------
+            function showToast(msg) {
+                toastMsg.textContent = msg || '✅ 已复制到剪贴板';
+                toast.classList.add('show');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2200);
+            }
+
+            // -------- 复制功能 --------
+            copyBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const address = this.getAttribute('data-address');
+                    if (!address) return;
+
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(address)
+                            .then(() => {
+                                showToast('✅ 已复制: ' + address);
+                                this.classList.add('copied');
+                                setTimeout(() => {
+                                    this.classList.remove('copied');
+                                }, 1000);
+                            })
+                            .catch(() => {
+                                fallbackCopy(address, this);
+                            });
+                    } else {
+                        fallbackCopy(address, this);
+                    }
+                });
+            });
+
+            // -------- 降级复制 --------
+            function fallbackCopy(text, btn) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-9999px';
+                textarea.style.top = '-9999px';
+                textarea.style.width = '1px';
+                textarea.style.height = '1px';
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+
+                try {
+                    const success = document.execCommand('copy');
+                    if (success) {
+                        showToast('✅ 已复制: ' + text);
+                        if (btn) {
+                            btn.classList.add('copied');
+                            setTimeout(() => {
+                                btn.classList.remove('copied');
+                            }, 1000);
+                        }
+                    } else {
+                        showToast('❌ 复制失败，请手动复制');
+                    }
+                } catch (err) {
+                    showToast('❌ 复制失败，请手动复制');
+                }
+                document.body.removeChild(textarea);
+            }
+
+            // -------- 地址文本点击复制 --------
+            document.querySelectorAll('.address-text').forEach(el => {
+                el.style.cursor = 'pointer';
+                el.addEventListener('click', function() {
+                    const text = this.textContent.trim();
+                    if (!text) return;
+                    const parent = this.closest('.address-item');
+                    if (parent) {
+                        const btn = parent.querySelector('.copy-btn');
+                        if (btn) {
+                            btn.click();
+                        } else {
+                            if (navigator.clipboard && navigator.clipboard.writeText) {
+                                navigator.clipboard.writeText(text)
+                                    .then(() => showToast('✅ 已复制: ' + text))
+                                    .catch(() => showToast('❌ 复制失败'));
+                            } else {
+                                fallbackCopy(text);
+                            }
+                        }
+                    }
+                });
+                el.title = '点击复制地址';
+            });
+
+        })();
+    </script>
+
+</body>
+</html>

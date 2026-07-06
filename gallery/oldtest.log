@@ -1,0 +1,10 @@
+				{ src: 'gallery/n-15340231007.png', caption: '最早的截图 -15,340附近的夜景 2023-10-07' },
+				{ src: 'gallery/405a-312 sr251019.png', caption: '日出 405,-312 2025-10-19' },
+				{ src: 'gallery/414a-432ss25109.png', caption: '日落 414,-432 2025-10-19' },
+{
+                    src: 'gallery/2024_01.jpg',
+                    player: 'Alice',
+                    description: '主城夜景',
+                    coordinates: '100, 64, 200',
+                    date: '2024-01-15'
+                },
