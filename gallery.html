@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>相册 · Modern Craft</title>
+
+    <link rel="icon" type="image/png" sizes="64x64" href="mdc64.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="mdc64.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="mdc64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="mdc64.png" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background-color: #2d1f14;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-image: url('mdc1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #1a120e;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(20, 15, 10, 0.82);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 6px solid #6d4c2a;
+            border-radius: 20px;
+            padding: 30px 35px 25px;
+            box-shadow: 0 0 0 2px #3d2b1a, 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 0 0 2px #8b6b44;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 4px solid #5a3d24;
+        }
+        .logo-large {
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+        }
+        .logo-large img {
+            width: 100%;
+            height: auto;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin: 4px 0 18px 0;
+            padding: 4px;
+            background: rgba(20, 15, 10, 0.5);
+            border-radius: 14px;
+            border: 3px solid #4d351e;
+            box-shadow: inset 0 0 0 2px #2d1f14;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 14px;
+            padding: 12px 28px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: #8a7a6a;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+            flex: 1;
+            text-align: center;
+            letter-spacing: 0.5px;
+            min-width: 100px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .tab-btn:hover {
+            color: #d4c9b0;
+            background: rgba(60, 40, 25, 0.4);
+        }
+        .tab-btn.active {
+            background: #5a3d24;
+            color: #f5f0e1;
+            box-shadow: 0 4px 0 #2d1b0e, inset 0 2px 0 #7a5a38;
+            transform: translateY(-2px);
+            cursor: default;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4d351e;
+        }
+        .gallery-header h3 {
+            color: #e6d7b8;
+            font-size: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        .upload-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            padding: 10px 22px;
+            background: #6d8a4a;
+            border: none;
+            border-radius: 12px;
+            color: #f5f0e1;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            box-shadow: 0 4px 0 #3d5a2a, 0 3px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid #8daa6a;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #3d5a2a, 0 6px 20px rgba(0, 0, 0, 0.5);
+            background: #7d9a5a;
+        }
+        .upload-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3d5a2a;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 6px 0 10px 0;
+        }
+
+        .gallery-item {
+            background: rgba(30, 20, 12, 0.7);
+            border: 4px solid #4d351e;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 2px #2d1f14, 0 6px 16px rgba(0, 0, 0, 0.4);
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            border-color: #6d4c2a;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            background: #1a120e;
+            border-bottom: 3px solid #3d2b1a;
+        }
+
+        .gallery-meta {
+            padding: 12px 14px 14px 14px;
+            color: #d4c9b0;
+            font-size: 9px;
+            font-family: 'Press Start 2P', monospace;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            background: rgba(10, 8, 6, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .gallery-meta .meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px dashed rgba(90, 70, 50, 0.3);
+            padding-bottom: 2px;
+        }
+        .gallery-meta .meta-row:last-child {
+            border-bottom: none;
+        }
+        .gallery-meta .label {
+            color: #a0907a;
+            font-size: 8px;
+            letter-spacing: 0.5px;
+        }
+        .gallery-meta .value {
+            color: #e6d7b8;
+            font-size: 9px;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .gallery-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #7a6a5a;
+            font-size: 14px;
+            background: rgba(30, 20, 12, 0.4);
+            border-radius: 16px;
+            border: 3px dashed #4d351e;
+        }
+        .gallery-empty .big-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        /* 模态框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 6, 0.9);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(30, 20, 12, 0.95);
+            border: 6px solid #6d4c2a;
+            border-radius: 20px;
+            box-shadow: 0 0 0 2px #3d2b1a, 0 30px 80px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            position: relative;
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 24px;
+            color: #d4c9b0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            z-index: 10;
+            font-family: 'Press Start 2P', monospace;
+            transition: transform 0.2s;
+        }
+        .modal-close:hover {
+            transform: scale(1.2);
+        }
+        .modal-img {
+            width: 100%;
+            object-fit: contain;
+            max-height: 60vh;
+            background: #1a120e;
+            border-bottom: 4px solid #4d351e;
+        }
+        .modal-meta {
+            padding: 20px 28px 24px 28px;
+            background: rgba(20, 15, 10, 0.6);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 24px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            color: #d4c9b0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .modal-meta .full-row {
+            grid-column: 1 / -1;
+        }
+        .modal-meta .label {
+            color: #a0907a;
+            font-size: 9px;
+        }
+        .modal-meta .value {
+            color: #e6d7b8;
+            word-break: break-word;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: rgba(20, 15, 10, 0.92);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 3px solid #8db85a;
+            border-radius: 14px;
+            padding: 14px 30px;
+            color: #f0e3c8;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 13px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            z-index: 999;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast .toast-icon {
+            margin-right: 10px;
+            color: #b8d98a;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            .tab-btn { font-size: 12px; padding: 10px 16px; min-width: 70px; }
+        }
+        @media (max-width: 550px) {
+            .container { padding: 16px 14px 18px; border-width: 4px; }
+            .logo-large { max-width: 260px; }
+            .tab-btn { font-size: 10px; padding: 8px 10px; min-width: 50px; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+            .modal-meta { grid-template-columns: 1fr; gap: 6px; }
+            .toast { font-size: 11px; padding: 12px 20px; white-space: normal; max-width: 90%; }
+        }
+        ::-webkit-scrollbar { width: 12px; background: #2d1f14; }
+        ::-webkit-scrollbar-thumb { background: #6d4c2a; border: 2px solid #3d2b1a; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8b6b44; }
+        ::-webkit-scrollbar-track { background: #1a120e; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- 顶部仅大Logo -->
+        <header class="header">
+            <div class="logo-large">
+                <img src="mdclogo.png" alt="Modern Craft 服务器徽标" />
+            </div>
+        </header>
+
+        <!-- 导航栏（相册标签为激活状态，其他标签链接到 index.html 并带 hash） -->
+        <div class="tabs" role="tablist">
+            <a href="index.html#home" class="tab-btn">🏠 主页</a>
+            <span class="tab-btn active">🖼️ 相册</span>
+            <a href="index.html#play" class="tab-btn">🎮 玩法</a>
+            <a href="index.html#history" class="tab-btn">📜 服务器历史</a>
+            <a href="index.html#rules" class="tab-btn">📋 服务器规则</a>
+            <a href="index.html#links" class="tab-btn">🔗 相关链接</a>
+        </div>
+
+        <!-- 相册内容 -->
+        <div class="gallery-header">
+            <h3>📸 服务器相册</h3>
+            <a href="https://v.wjx.cn/vm/Q5FX50S.aspx#" class="upload-btn" target="_blank">
+                <span>⬆</span> 上传照片
+            </a>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- 由 JavaScript 动态渲染 -->
+            <div class="gallery-empty">
+                <span class="big-icon">🖼️</span>
+                正在加载相册...
+            </div>
+        </div>
+
+        <div style="margin-top:16px; text-align:center; font-size:9px; color:#5a4a3a; letter-spacing:2px; border-top:2px solid #3d2b1a; padding-top:12px;">
+            ◆ ◆ ◆  Modern Craft  ·  since 2023  ◆ ◆ ◆
+        </div>
+    </div>
+
+    <!-- 模态框 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">✕</button>
+            <img class="modal-img" id="modalImg" src="" alt="大图" />
+            <div class="modal-meta" id="modalMeta"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <span class="toast-icon">✓</span>
+        <span id="toastMsg">已复制</span>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================
+            // 相册数据（请在此配置您的照片）
+            // ============================
+            const photoList = [
+                // 示例：
+                // {
+                //     src: 'gallery/2024_01.jpg',
+                //     player: 'Alice',
+                //     description: '主城夜景',
+                //     coordinates: '100, 64, 200',
+                //     date: '2024-01-15'
+                // }
+				{
+                    src: 'gallery/2026-02-16_18.31.35.png',
+                    player: 'GJ64_Minecraft',
+                    description: '森林（+光影）',
+                    coordinates: '-14,70,370',
+                    date: '2026-2-16'
+                },
+				{
+                    src: 'gallery/55174a168eb3bdf61bc1ac1ee6fa3fd6a54111d5.png',
+                    player: 'GJ64_Minecraft',
+                    description: 'Villages and cities',
+                    coordinates: 'Around 0,0',
+                    date: '2026-10-26'
+                },
+				{
+                    src: 'gallery/414a-432ss251019.png',
+                    player: 'GJ64_Minecraft',
+                    description: '日落（背景图）',
+                    coordinates: '414,-432',
+                    date: '2025-10-19'
+                },		
+				{
+                    src: 'gallery/405a-312 sr251019.png',
+                    player: 'GJ64_Minecraft',
+                    description: '日出 (SEUS PTGI HRR GFME)',
+                    coordinates: '405,-312',
+                    date: '2025-10-19'
+                },
+				{
+                    src: 'gallery/2025-08-15_21.13.39.png',
+                    player: 'GJ64_Minecraft',
+                    description: '史诗地形 · 雪山',
+                    coordinates: '15148.780,364.87500,6744.953',
+                    date: '2024-08-15'
+                },
+				{
+                    src: 'gallery/我的世界城市 1_5_RoosterGroup_来自小红书网页版.jpg',
+                    player: 'GJ64_Minecraft',
+                    description: '主城',
+                    coordinates: '70,-330附近',
+                    date: '2023-10-28'
+                },
+				{
+                    src: 'gallery/ldm231024.bmp',
+                    player: 'GJ（服主旧号）',
+                    description: '落地马（小红书视频截图）',
+                    coordinates: '87,80,-287附近',
+                     date: '2023-10-24'
+                },
+				{
+                    src: 'gallery/n-15340231007.png',
+                    player: 'GJ（服主旧号）',
+                    description: '最早的截图 夜景',
+                    coordinates: '-15,63,340附近',
+                     date: '2023-10-07'
+                },
+            ];
+
+            const galleryGrid = document.getElementById('galleryGrid');
+
+            function renderGallery() {
+                if (!galleryGrid) return;
+                galleryGrid.innerHTML = '';
+
+                if (!photoList || photoList.length === 0) {
+                    galleryGrid.innerHTML = `
+                        <div class="gallery-empty">
+                            <span class="big-icon">📂</span>
+                            相册暂无照片
+                        </div>
+                    `;
+                    return;
+                }
+
+                photoList.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'gallery-item';
+                    div.dataset.index = index;
+
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    img.alt = item.description || 'Modern Craft 截图';
+                    img.loading = 'lazy';
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const placeholder = document.createElement('div');
+                        placeholder.style.cssText = `
+                            aspect-ratio: 16/9;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background: #1a120e;
+                            color: #d4c9b0;
+                            font-size: 11px;
+                            border-bottom: 3px solid #3d2b1a;
+                            padding: 10px;
+                            text-align: center;
+                            line-height: 1.6;
+                        `;
+                        placeholder.innerHTML = '❌ 图片加载失败<br>请检查网络';
+                        this.parentNode.insertBefore(placeholder, this);
+                    };
+
+                    const meta = document.createElement('div');
+                    meta.className = 'gallery-meta';
+                    meta.innerHTML = `
+                        <div class="meta-row"><span class="label">👤 玩家</span><span class="value">${item.player || '未知'}</span></div>
+                        <div class="meta-row"><span class="label">📝 描述</span><span class="value">${item.description || '无'}</span></div>
+                        <div class="meta-row"><span class="label">📍 坐标</span><span class="value">${item.coordinates || '未记录'}</span></div>
+                        <div class="meta-row"><span class="label">📅 拍摄日期</span><span class="value">${item.date || '未知'}</span></div>
+                    `;
+
+                    div.appendChild(img);
+                    div.appendChild(meta);
+
+                    div.addEventListener('click', function(e) {
+                        openModal(index);
+                    });
+
+                    galleryGrid.appendChild(div);
+                });
+            }
+
+            // 模态框
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalImg = document.getElementById('modalImg');
+            const modalMeta = document.getElementById('modalMeta');
+            const modalClose = document.getElementById('modalClose');
+
+            function openModal(index) {
+                const item = photoList[index];
+                if (!item) return;
+                modalImg.src = item.src;
+                modalImg.alt = item.description || '大图';
+                modalMeta.innerHTML = `
+                    <div class="full-row"><span class="label">👤 玩家</span> <span class="value">${item.player || '未知'}</span></div>
+                    <div class="full-row"><span class="label">📝 描述</span> <span class="value">${item.description || '无'}</span></div>
+                    <div class="full-row"><span class="label">📍 坐标</span> <span class="value">${item.coordinates || '未记录'}</span></div>
+                    <div class="full-row"><span class="label">📅 拍摄日期</span> <span class="value">${item.date || '未知'}</span></div>
+                `;
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) closeModal();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            renderGallery();
+
+        })();
+    </script>
+
+</body>
+</html>
