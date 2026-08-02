@@ -383,6 +383,7 @@
         <!-- 导航栏（相册标签为激活状态，其他标签链接到 index.html 并带 hash） -->
         <div class="tabs" role="tablist">
             <a href="index.html#home" class="tab-btn">🏠 主页</a>
+            <a href="index.html#network" class="tab-btn">🌐 网络</a>
             <span class="tab-btn active">🖼️ 相册</span>
             <a href="index.html#play" class="tab-btn">🎮 玩法</a>
             <a href="index.html#history" class="tab-btn">📜 服务器历史</a>
@@ -430,86 +431,78 @@
             'use strict';
 
             // ============================
-            // 相册数据（请在此配置您的照片）
+            // 相册数据
             // ============================
             const photoList = [
-                // 示例：
-                // {
-                //     src: 'gallery/2024_01.jpg',
-                //     player: 'Alice',
-                //     description: '主城夜景',
-                //     coordinates: '100, 64, 200',
-                //     date: '2024-01-15'
-                // }
-				{
+                {
                     src: 'gallery/919F4C24A7BA396A23140BFFE6F8D2BD.png',
                     player: '__Arc_Light__',
                     description: '雪山日落',
                     coordinates: '15k,400,6k附近',
                     date: '2026-7-25'
                 },
-				{
+                {
                     src: 'gallery/F18AA18793C194C7B4FA24106E254941.png',
                     player: '__Arc_Light__',
                     description: '城堡（+BSL）',
                     coordinates: '400，200，400附近',
                     date: '2026-7-25'
                 },
-				{
+                {
                     src: 'gallery/2026-02-16_18.31.35.png',
                     player: 'GJ64_Minecraft',
                     description: '森林（+光影）',
                     coordinates: '-14,70,370',
                     date: '2026-2-16'
                 },
-				{
+                {
                     src: 'gallery/55174a168eb3bdf61bc1ac1ee6fa3fd6a54111d5.png',
                     player: 'GJ64_Minecraft',
                     description: 'Villages and cities',
                     coordinates: 'Around 0,0',
                     date: '2025-10-26'
                 },
-				{
+                {
                     src: 'gallery/414a-432ss251019.png',
                     player: 'GJ64_Minecraft',
                     description: '日落（背景图）',
                     coordinates: '414,-432',
                     date: '2025-10-19'
-                },		
-				{
+                },
+                {
                     src: 'gallery/405a-312 sr251019.png',
                     player: 'GJ64_Minecraft',
                     description: '日出 (SEUS PTGI HRR GFME)',
                     coordinates: '405,-312',
                     date: '2025-10-19'
                 },
-				{
+                {
                     src: 'gallery/2025-08-15_21.13.39.png',
                     player: 'GJ64_Minecraft',
                     description: '史诗地形 · 雪山',
                     coordinates: '15148.780,364.87500,6744.953',
                     date: '2025-08-15'
                 },
-				{
+                {
                     src: 'gallery/我的世界城市 1_5_RoosterGroup_来自小红书网页版.jpg',
                     player: 'GJ64_Minecraft',
                     description: '主城',
                     coordinates: '70,-330附近',
                     date: '2023-10-28'
                 },
-				{
+                {
                     src: 'gallery/ldm231024.bmp',
                     player: 'GJ（服主旧号）',
                     description: '落地马（小红书视频截图）',
                     coordinates: '87,80,-287附近',
-                     date: '2023-10-24'
+                    date: '2023-10-24'
                 },
-				{
+                {
                     src: 'gallery/n-15340231007.png',
                     player: 'GJ（服主旧号）',
                     description: '最早的截图 夜景',
                     coordinates: '-15,63,340附近',
-                     date: '2023-10-07'
+                    date: '2023-10-07'
                 },
             ];
 
