@@ -37,7 +37,6 @@
             background-color: #1a120e;
         }
 
-        /* ========== 主容器 ========== */
         .container {
             max-width: 1200px;
             width: 100%;
@@ -61,7 +60,6 @@
             padding-bottom: 12px;
             border-bottom: 4px solid #5a3d24;
         }
-
         .logo-large {
             max-width: 520px;
             width: 100%;
@@ -86,7 +84,6 @@
             box-shadow: inset 0 0 0 2px #2d1f14;
             flex-wrap: wrap;
         }
-
         .tab-btn {
             font-family: 'Press Start 2P', monospace;
             font-size: 14px;
@@ -102,6 +99,8 @@
             text-align: center;
             letter-spacing: 0.5px;
             min-width: 100px;
+            text-decoration: none;
+            display: inline-block;
         }
         .tab-btn:hover {
             color: #d4c9b0;
@@ -118,7 +117,7 @@
             box-shadow: 0 0px 0 #2d1b0e;
         }
 
-        /* ========== 标签页内容容器 ========== */
+        /* ========== 标签页内容 ========== */
         .tab-content {
             display: none;
             animation: fadeIn 0.3s ease;
@@ -126,7 +125,6 @@
         .tab-content.active {
             display: block;
         }
-
         @keyframes fadeIn {
             0% { opacity: 0; transform: translateY(6px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -145,6 +143,9 @@
         .home-right {
             flex: 1;
             min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .intro-section {
@@ -202,67 +203,294 @@
             padding: 2px 0;
         }
 
-        /* 地址卡片 */
-        .address-card {
+        /* ----- 卡片通用 ----- */
+        .info-card {
             background: rgba(30, 20, 12, 0.65);
             border: 4px solid #6d4c2a;
             border-radius: 16px;
-            padding: 22px 20px;
+            padding: 18px 20px;
             box-shadow: inset 0 0 0 2px #3d2b1a, 0 6px 20px rgba(0, 0, 0, 0.5);
         }
-        .address-card h3 {
+        .info-card h3 {
             color: #e6d7b8;
-            font-size: 14px;
+            font-size: 13px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #4d351e;
+            padding-bottom: 6px;
             text-align: center;
         }
-        .address-item {
+        .info-card .status-row {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 8px 6px;
-            border-bottom: 1px dashed rgba(90, 70, 50, 0.3);
-            gap: 10px;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(90, 70, 50, 0.25);
+            font-size: 11px;
+            color: #d4c9b0;
         }
-        .address-item:last-child {
+        .info-card .status-row:last-child {
             border-bottom: none;
         }
-        .address-label {
+        .info-card .label {
             color: #b8a88a;
             font-size: 10px;
-            min-width: 80px;
         }
-        .address-value {
+        .info-card .value {
             color: #f0e3c8;
             font-size: 11px;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
-            background: rgba(0, 0, 0, 0.25);
-            transition: background 0.2s;
-            flex: 1;
-            word-break: break-all;
             text-align: right;
         }
-        .address-value:hover {
-            background: rgba(60, 40, 25, 0.5);
+        .info-card .online {
+            color: #7cb84a;
         }
-        .address-tip {
-            margin-top: 14px;
+        .info-card .offline {
+            color: #c97a5a;
+        }
+        .info-card .tip {
+            margin-top: 10px;
             font-size: 10px;
             color: #8a7a6a;
             text-align: center;
             border-top: 2px solid #4d351e;
-            padding-top: 12px;
+            padding-top: 10px;
             line-height: 1.6;
         }
+        .info-card .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+        }
+        .badge-online {
+            background: #2d4a1a;
+            color: #7cb84a;
+            border: 1px solid #5a8a3a;
+        }
+        .badge-offline {
+            background: #4a1a1a;
+            color: #c97a5a;
+            border: 1px solid #8a3a2a;
+        }
 
-        /* ========== 通用样式：玩法、历史、相关链接、规则 ========== */
+        /* ----- 在线玩家列表 ----- */
+        .player-list {
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .player-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .player-list::-webkit-scrollbar-thumb {
+            background: #6d4c2a;
+            border-radius: 3px;
+        }
+        .player-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-bottom: 1px dashed rgba(90, 70, 50, 0.2);
+            font-size: 11px;
+            color: #d4c9b0;
+            transition: background 0.15s;
+        }
+        .player-item:hover {
+            background: rgba(60, 40, 25, 0.3);
+            border-radius: 6px;
+        }
+        .player-item:last-child {
+            border-bottom: none;
+        }
+        .player-head {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 2px solid #5a3d24;
+            flex-shrink: 0;
+            background: #2d1f14;
+            image-rendering: pixelated;
+        }
+        .player-name {
+            color: #e6d7b8;
+            font-size: 11px;
+            word-break: break-all;
+        }
+        .player-empty {
+            text-align: center;
+            padding: 20px;
+            color: #8a7a6a;
+            font-size: 11px;
+        }
+        .player-loading {
+            text-align: center;
+            padding: 20px;
+            color: #b8a88a;
+            font-size: 11px;
+        }
+
+        /* ----- 网络标签页 ----- */
+        /* 延迟监测行式布局 */
+        .network-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            background: rgba(30, 20, 12, 0.55);
+            border: 3px solid #4d351e;
+            border-radius: 12px;
+            box-shadow: inset 0 0 0 1px #2d1f14, 0 3px 10px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.2s;
+            cursor: pointer;
+            gap: 12px;
+        }
+        .network-row:hover {
+            border-color: #6d4c2a;
+        }
+        .network-row .row-name {
+            color: #b8d98a;
+            font-size: 11px;
+            min-width: 120px;
+            flex-shrink: 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .network-row .row-addr {
+            color: #8a8a7a;
+            font-size: 10px;
+            flex: 1;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .network-row .row-ping {
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            min-width: 80px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .network-row .row-ping .ms {
+            font-size: 9px;
+            color: #8a7a6a;
+            font-weight: normal;
+        }
+        .network-row .ping-timeout {
+            color: #c97a5a;
+            font-size: 11px;
+        }
+        .network-row.good {
+            border-color: #5a8a3a;
+        }
+        .network-row.medium {
+            border-color: #c9a83a;
+        }
+        .network-row.slow {
+            border-color: #c97a3a;
+        }
+        .network-row.timeout {
+            border-color: #8a3a2a;
+            opacity: 0.7;
+        }
+
+        /* 服务器信息头部 */
+        .server-info-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 14px 18px;
+            background: rgba(30, 20, 12, 0.5);
+            border: 3px solid #4d351e;
+            border-radius: 14px;
+        }
+        .server-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            border: 3px solid #5a3d24;
+            flex-shrink: 0;
+            image-rendering: pixelated;
+            background: #1a120e;
+        }
+        .server-info-text {
+            flex: 1;
+        }
+        .server-motd {
+            color: #e6d7b8;
+            font-size: 12px;
+            line-height: 1.8;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+            word-break: break-word;
+        }
+        .server-motd .motd-line {
+            display: block;
+        }
+        .server-version {
+            color: #b8a88a;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        /* 基岩版卡片 */
+        .bedrock-section {
+            margin-top: 16px;
+        }
+        .bedrock-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            background: rgba(30, 20, 12, 0.55);
+            border: 3px solid #4d351e;
+            border-radius: 12px;
+            box-shadow: inset 0 0 0 1px #2d1f14, 0 3px 10px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.2s;
+            cursor: pointer;
+            gap: 12px;
+        }
+        .bedrock-row:hover {
+            border-color: #6d4c2a;
+        }
+        .bedrock-row .row-name {
+            color: #8ab8d9;
+            font-size: 11px;
+            min-width: 100px;
+            flex-shrink: 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .bedrock-row .row-addr {
+            color: #8a8a7a;
+            font-size: 10px;
+            flex: 1;
+            text-align: center;
+        }
+        .bedrock-row .row-ping {
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            min-width: 100px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .bedrock-row .row-ping .ms {
+            font-size: 9px;
+            color: #8a7a6a;
+            font-weight: normal;
+        }
+        .bedrock-row.good { border-color: #5a8a3a; }
+        .bedrock-row.medium { border-color: #c9a83a; }
+        .bedrock-row.slow { border-color: #c97a3a; }
+        .bedrock-row.timeout { border-color: #8a3a2a; opacity: 0.7; }
+
+        /* ========== 通用：玩法、历史、规则、链接 ========== */
         .page-section {
             padding: 6px 0;
         }
-
         .feature-card {
             background: rgba(30, 20, 12, 0.55);
             border: 2px solid #5a3d24;
@@ -309,16 +537,6 @@
             left: 0;
             color: #7cb84a;
         }
-        .feature-card .code {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            color: #b8d98a;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin: 2px 0;
-        }
         .feature-card .cmd {
             color: #e6d7b8;
             background: rgba(0, 0, 0, 0.2);
@@ -329,24 +547,45 @@
         .feature-card .label {
             color: #d4b88a;
         }
+        .feature-card table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0 12px 0;
+            font-size: 11px;
+            color: #d4c9b0;
+        }
+        .feature-card table th {
+            background: rgba(60, 40, 25, 0.5);
+            color: #b8d98a;
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 2px solid #4d351e;
+            font-size: 10px;
+        }
+        .feature-card table td {
+            padding: 6px 10px;
+            border-bottom: 1px dashed rgba(90, 70, 50, 0.2);
+            line-height: 1.6;
+        }
+        .feature-card table tr:hover td {
+            background: rgba(60, 40, 25, 0.2);
+        }
 
-        /* 规则专用样式 */
+        /* 规则 */
         .rules-section .feature-card h3 {
             color: #e6d7b8;
         }
-        .rules-section .rule-chapter {
-            margin-top: 4px;
-        }
-        .rules-section .rule-chapter strong {
-            color: #b8d98a;
-        }
-        .rules-section .rule-chapter p {
+        .rule-chapter p {
             font-size: 12px;
             line-height: 2;
             color: #d4c9b0;
+            margin-bottom: 6px;
+        }
+        .rule-chapter strong {
+            color: #b8d98a;
         }
 
-        /* 相关链接按钮 */
+        /* 链接 */
         .links-grid {
             display: flex;
             flex-wrap: wrap;
@@ -381,16 +620,46 @@
             transform: translateY(3px);
             box-shadow: 0 2px 0 #2d1b0e;
         }
-        .link-btn.board { background: #3d6b8a; border-color: #5a8aaa; box-shadow: 0 5px 0 #1f405a; }
-        .link-btn.board:hover { background: #4d7b9a; }
-        .link-btn.wiki { background: #6d5a3a; border-color: #8d7a5a; box-shadow: 0 5px 0 #3d2a1a; }
-        .link-btn.wiki:hover { background: #7d6a4a; }
-        .link-btn.feedback { background: #6d8a4a; border-color: #8daa6a; box-shadow: 0 5px 0 #3d5a2a; }
-        .link-btn.feedback:hover { background: #7d9a5a; }
-        .link-btn.modrinth { background: #4a6a8a; border-color: #6a8aaa; box-shadow: 0 5px 0 #2a4a6a; }
-        .link-btn.modrinth:hover { background: #5a7a9a; }
-        .link-btn.mciplist { background: #6a4a6a; border-color: #8a6a8a; box-shadow: 0 5px 0 #4a2a4a; }
-        .link-btn.mciplist:hover { background: #7a5a7a; }
+        .link-btn.board {
+            background: #3d6b8a;
+            border-color: #5a8aaa;
+            box-shadow: 0 5px 0 #1f405a;
+        }
+        .link-btn.board:hover {
+            background: #4d7b9a;
+        }
+        .link-btn.wiki {
+            background: #6d5a3a;
+            border-color: #8d7a5a;
+            box-shadow: 0 5px 0 #3d2a1a;
+        }
+        .link-btn.wiki:hover {
+            background: #7d6a4a;
+        }
+        .link-btn.feedback {
+            background: #6d8a4a;
+            border-color: #8daa6a;
+            box-shadow: 0 5px 0 #3d5a2a;
+        }
+        .link-btn.feedback:hover {
+            background: #7d9a5a;
+        }
+        .link-btn.modrinth {
+            background: #4a6a8a;
+            border-color: #6a8aaa;
+            box-shadow: 0 5px 0 #2a4a6a;
+        }
+        .link-btn.modrinth:hover {
+            background: #5a7a9a;
+        }
+        .link-btn.mciplist {
+            background: #6a4a6a;
+            border-color: #8a6a8a;
+            box-shadow: 0 5px 0 #4a2a4a;
+        }
+        .link-btn.mciplist:hover {
+            background: #7a5a7a;
+        }
 
         /* ========== Toast ========== */
         .toast {
@@ -426,31 +695,99 @@
 
         /* ========== 响应式 ========== */
         @media (max-width: 900px) {
-            .home-grid { flex-direction: column; }
-            .home-left, .home-right { flex: 1 1 100%; }
-            .tab-btn { font-size: 12px; padding: 10px 16px; min-width: 70px; }
-            .intro-section { padding: 18px 16px; }
-            .intro-text { font-size: 11px; line-height: 1.9; }
+            .home-grid {
+                flex-direction: column;
+            }
+            .home-left,
+            .home-right {
+                flex: 1 1 100%;
+            }
+            .tab-btn {
+                font-size: 12px;
+                padding: 10px 16px;
+                min-width: 70px;
+            }
+            .intro-section {
+                padding: 18px 16px;
+            }
+            .intro-text {
+                font-size: 11px;
+                line-height: 1.9;
+            }
+            .server-info-header {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            .network-row .row-addr {
+                display: none;
+            }
         }
-
         @media (max-width: 550px) {
-            .container { padding: 16px 14px 18px; border-width: 4px; }
-            .logo-large { max-width: 260px; }
-            .intro-title { font-size: 14px; }
-            .intro-text { font-size: 10px; line-height: 1.8; }
-            .tab-btn { font-size: 10px; padding: 8px 10px; min-width: 50px; }
-            .address-item { flex-wrap: wrap; gap: 4px; }
-            .address-label { min-width: 60px; }
-            .address-value { font-size: 10px; text-align: left; }
-            .toast { font-size: 11px; padding: 12px 20px; white-space: normal; max-width: 90%; }
-            .feature-card { padding: 14px 16px; }
-            .feature-card p, .feature-card ul li { font-size: 10px; }
+            .container {
+                padding: 16px 14px 18px;
+                border-width: 4px;
+            }
+            .logo-large {
+                max-width: 260px;
+            }
+            .intro-title {
+                font-size: 14px;
+            }
+            .intro-text {
+                font-size: 10px;
+                line-height: 1.8;
+            }
+            .tab-btn {
+                font-size: 10px;
+                padding: 8px 10px;
+                min-width: 50px;
+            }
+            .toast {
+                font-size: 11px;
+                padding: 12px 20px;
+                white-space: normal;
+                max-width: 90%;
+            }
+            .feature-card {
+                padding: 14px 16px;
+            }
+            .feature-card p,
+            .feature-card ul li {
+                font-size: 10px;
+            }
+            .network-row {
+                padding: 8px 10px;
+                gap: 6px;
+            }
+            .network-row .row-name {
+                min-width: 80px;
+                font-size: 10px;
+            }
+            .bedrock-row .row-name {
+                min-width: 70px;
+                font-size: 10px;
+            }
+            .bedrock-row .row-ping {
+                min-width: 70px;
+            }
         }
 
-        ::-webkit-scrollbar { width: 12px; background: #2d1f14; }
-        ::-webkit-scrollbar-thumb { background: #6d4c2a; border: 2px solid #3d2b1a; border-radius: 6px; }
-        ::-webkit-scrollbar-thumb:hover { background: #8b6b44; }
-        ::-webkit-scrollbar-track { background: #1a120e; }
+        ::-webkit-scrollbar {
+            width: 12px;
+            background: #2d1f14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6d4c2a;
+            border: 2px solid #3d2b1a;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b6b44;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a120e;
+        }
     </style>
 </head>
 <body>
@@ -474,6 +811,7 @@
         <!-- ====== 标签页导航 ====== -->
         <div class="tabs" role="tablist">
             <button class="tab-btn active" data-tab="home" role="tab">🏠 主页</button>
+            <button class="tab-btn" data-tab="network" role="tab">🌐 网络</button>
             <button class="tab-btn" data-tab="gallery" role="tab">🖼️ 相册</button>
             <button class="tab-btn" data-tab="play" role="tab">🎮 玩法</button>
             <button class="tab-btn" data-tab="history" role="tab">📜 服务器历史</button>
@@ -481,6 +819,7 @@
             <button class="tab-btn" data-tab="links" role="tab">🔗 相关链接</button>
         </div>
 
+        <!-- ============================================================ -->
         <!-- ====== 标签页：主页 ====== -->
         <div id="home" class="tab-content active" role="tabpanel">
             <div class="home-grid">
@@ -517,180 +856,160 @@
                     </section>
                 </div>
 
-                <!-- 右栏：连接地址 -->
+                <!-- 右栏：服务器情况 + 在线玩家列表 -->
                 <div class="home-right">
-                    <div class="address-card">
-                        <h3>🔌 连接地址</h3>
-                        <div class="address-item">
-                            <span class="address-label">官方网站</span>
-                            <span class="address-value" data-copy="https://mdc-mc.cc.cd/">https://mdc-mc.cc.cd/</span>
+
+                    <!-- 服务器情况 -->
+                    <div class="info-card" id="statusCard">
+                        <h3>🖥️ 服务器情况</h3>
+                        <div class="status-row">
+                            <span class="label">状态</span>
+                            <span class="value" id="statusOnline">加载中...</span>
                         </div>
-                        <div class="address-item">
-                            <span class="address-label">主服</span>
-                            <span class="address-value" data-copy="mdc-mc.cc.cd">mdc-mc.cc.cd</span>
+                        <div class="status-row">
+                            <span class="label">玩家</span>
+                            <span class="value" id="statusPlayers">加载中...</span>
                         </div>
-                        <div class="address-item">
-                            <span class="address-label">阿里云广州服</span>
-                            <span class="address-value" data-copy="gz.mdc-mc.cc.cd">gz.mdc-mc.cc.cd</span>
+                        <div class="status-row">
+                            <span class="label">版本</span>
+                            <span class="value" id="statusVersion">加载中...</span>
                         </div>
-                        <div class="address-item">
-                            <span class="address-label">ZGIT香港服</span>
-                            <span class="address-value" data-copy="hk.mdc-mc.cc.cd">hk.mdc-mc.cc.cd</span>
+                        <div class="status-row">
+                            <span class="label">延迟</span>
+                            <span class="value" id="statusDelay">加载中...</span>
                         </div>
-                        <div class="address-item">
-                            <span class="address-label">ZGIT新加坡服</span>
-                            <span class="address-value" data-copy="sg.mdc-mc.cc.cd">sg.mdc-mc.cc.cd</span>
-                        </div>
-                        <div class="address-tip">
-                            💡 主服有时不是最快的，连不上时可以看一下其他服，都是连向一个服务器。
+                        <div class="tip" style="margin-top:8px; font-size:10px; color:#8a7a6a; text-align:center; border-top:2px solid #4d351e; padding-top:8px; line-height:1.6;">🔄 每 30 秒自动刷新</div>
+                    </div>
+
+                    <!-- 在线玩家列表 -->
+                    <div class="info-card">
+                        <h3>👥 在线玩家 <span style="font-size:9px; color:#8a7a6a; font-weight:normal;">（实时刷新）</span></h3>
+                        <div class="player-list" id="playerList">
+                            <div class="player-loading">⏳ 正在获取玩家列表...</div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
 
+        <!-- ============================================================ -->
+        <!-- ====== 标签页：网络（服务器信息 + 延迟监测 + 基岩版） ====== -->
+        <div id="network" class="tab-content" role="tabpanel">
+            <div class="page-section">
+
+                <!-- 服务器图标 + MOTD（两行都显示） -->
+                <div class="feature-card" style="border-color:#6d4c2a; margin-bottom:16px;">
+                    <h3>📡 服务器信息</h3>
+                    <div class="server-info-header" id="serverInfoHeader">
+                        <img class="server-icon" id="serverIcon" src="" alt="服务器图标" style="display:none;" />
+                        <div class="server-info-text" id="serverInfoText">
+                            <div class="player-loading" style="padding:0;">⏳ 正在获取服务器信息...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 各线路延迟监测（行式：线路名 + 地址 + 延迟） -->
+                <div class="feature-card" style="border-color:#6d4c2a; margin-bottom:16px;">
+                    <h3>⏱ 各线路延迟监测 <span style="font-size:10px; color:#8a7a6a; font-weight:normal;">（点击行可复制地址）</span></h3>
+                    <p style="font-size:11px; color:#b8a88a; margin-bottom:12px;">以下为各线路的实时延迟，供您选择最佳连接线路。延迟越低连接越流畅。</p>
+                    <div id="networkList">
+                        <div style="text-align:center; color:#8a7a6a; padding:20px 0;">正在检测各线路延迟...</div>
+                    </div>
+                </div>
+
+                <!-- 基岩版监测 -->
+                <div class="feature-card" style="border-color:#4a6a8a; margin-bottom:0;">
+                    <h3>📱 基岩版 <span style="font-size:10px; color:#8a7a6a; font-weight:normal;">（点击行可复制地址/端口）</span></h3>
+                    <p style="font-size:11px; color:#8a8a9a; margin-bottom:12px;">基岩版（Bedrock）线路状态监测，包含延迟和版本信息。</p>
+                    <div id="bedrockList">
+                        <div style="text-align:center; color:#8a7a6a; padding:20px 0;">正在检测基岩版线路...</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
         <!-- ====== 标签页：相册（跳转到 gallery.html） ====== -->
         <div id="gallery" class="tab-content" role="tabpanel">
             <p style="color:#d4c9b0; text-align:center; padding:40px;">正在跳转至相册...</p>
         </div>
 
+        <!-- ============================================================ -->
         <!-- ====== 标签页：玩法 ====== -->
         <div id="play" class="tab-content" role="tabpanel">
             <div class="page-section">
-                <!-- 基本玩法 -->
-                <div class="feature-card">
-                    <h3>🎮 基本玩法</h3>
-                    <p>本页介绍本服务器的玩法。</p>
-                    <p>基本玩法：建筑、红石。</p>
-                    <p>可以像单人游戏那样玩，但是这个服务器可以说是“单人游戏 Pro”。本服务器的玩法大大减小了游戏难度。</p>
-                </div>
+                <div class="feature-card"><h3>🎮 基本玩法</h3><p>本页介绍本服务器的玩法。</p><p>基本玩法：建筑、红石。</p><p>可以像单人游戏那样玩，但是这个服务器可以说是"单人游戏 Pro"。本服务器的玩法大大减小了游戏难度。</p></div>
+                <div class="feature-card"><h3>🔐 登录</h3><p>使用密码登录保护您的账号安全。即使是正版账号，也需使用密码。</p><p><span class="label">基本命令：</span></p><ul><li><span class="cmd">/reg &lt;密码&gt; &lt;重复密码&gt;</span> 或 <span class="cmd">/register &lt;密码&gt; &lt;重复密码&gt;</span> — 注册。两次密码输入必须一样。密码至少6位。</li><li><span class="cmd">/l &lt;密码&gt;</span> 或 <span class="cmd">/login &lt;密码&gt;</span> — 登录。</li><li><span class="cmd">/unreg</span> — 注销。</li></ul></div>
+                <div class="feature-card"><h3>🔧 工具使用统计</h3><p><span class="label">以下是它统计的所有内容：</span></p><ul><li>开采的方块（使用镐、铲、斧、锄、剪）。</li><li>作物被挖掘（用锄头）。</li><li>玩家/怪物被杀（使用剑、斧、三叉戟、弓/弩、锤）。</li><li>物品在制作、从宝箱/金库/桶中掠夺、交易、通过创造模式生成以及钓鱼获得时的所有权。</li><li>受到护甲伤害。</li><li>用武器造成的伤害。</li><li>鱼已捕到。</li><li>绵羊被剪毛了。</li><li>射箭（弓/弩）。</li><li>鞘翅的飞行时间。</li></ul></div>
+                <div class="feature-card"><h3>🌄 遥远的天际线支持</h3><p><span class="label">开放说明：</span>限时开放。开放时间详见 QQ 群或 Wiki 主页的服务器新闻。开放时支持 768 区块。</p><p><span class="label">功能：</span>此插件生成并发送所需数据，以便 Distant Horizons 在您的服务器上提供几乎无限的视野距离。</p></div>
+                <div class="feature-card"><h3>🖼️ 地图画</h3><p><span class="label">地图画功能：</span></p><ul><li><strong>从 URL 加载图片到地图或物品展示框</strong> — 支持 PNG、JPEG、WEBP 和 GIF 格式！可以生成地图形式或直接放在物品展示框上（使用智能选择工具选择物品展示框）。自动图片适配意味着图片不会被拉伸！</li><li><strong>支持动态 GIF</strong> — 如果图片是 GIF，则会动起来！最高可达每秒 20 帧。动画任务异步运行。</li><li><strong>自定义宽度和高度</strong> — 让图片横跨多张地图，自动适配所有尺寸，非常适合在物品展示框上展示！</li><li><strong>给原版地图添加叠加层</strong> — 手持原版地图创建图像地图，或通过选择物品展示框中的地图来跨多张地图创建。</li><li><strong>组合图像地图便于放置</strong> — 将整个多部分图像地图作为一个组合物品获取！自动寻找空间将图像地图放置在物品展示框墙（或地板/天花板）上。点击的物品展示框视为左上角（如果有足够空间）。当被破坏时，整个组合地图会被移除并返回一个组合地图物品。尊重其他插件的物品展示框保护（通过调用 Bukkit 事件）。</li><li><strong>轻松刷新地图</strong> — 用一个简单的命令从 URL 源刷新同一图像地图的所有副本！非常适合展示需要定期更新且无需逐个替换的信息。</li><li><strong>添加地图标记</strong> — 可使用任何地图图标，比如原版制图师地图上的府邸和神庙图标！还可以在图标下方添加可选文字行。可配置每张地图的最大标记数量。非常适合在自定义图像地图上标记位置！</li><li><strong>生存友好</strong> — 要求生存模式的玩家在创建图像地图时，背包中必须有空地图（使用玩家命令）。即使在物品展示框上直接创建图像或获取组合图像地图物品时也有效。可在配置中调整。</li><li><strong>易于管理和追踪</strong> — 提供命令帮助玩家和管理员管理自己（或所有人）创建的图像地图。可以与其他玩家共享图像地图的访问权限！可为不同玩家设置不同的权限级别（例如列出某玩家的所有地图、重命名等）。可为每个玩家设置图像创建限制（每个玩家可不同！）。可设置单个图像帧的最大尺寸（同样可自定义）。支持从 ImageOnMap 和 DrMap 迁移（如需更多插件支持请求，请联系我）。</li><li><strong>隐形物品展示框</strong> — 内置支持生存友好的隐形物品展示框！用隐身药水喷溅物品展示框即可获得。可在配置中调整。</li></ul><p><span class="label">地图画指令：</span></p><ul><li><span class="cmd">/imageframe select</span> — 选择要放置图像地图的物品展示框</li><li><span class="cmd">/imageframe create &lt;name&gt; &lt;url&gt; &lt;width&gt; &lt;height&gt;</span> — 创建新的图像地图</li><li><span class="cmd">/imageframe create &lt;name&gt; &lt;url&gt; selection</span> — 创建新的图像地图并直接放入选中的物品展示框</li><li><span class="cmd">/imageframe create &lt;name&gt; &lt;url&gt; &lt;width&gt; &lt;height&gt; combined</span> — 创建新的图像地图并获取其组合图像地图物品</li><li><span class="cmd">/imageframe overlay &lt;name&gt; &lt;url&gt;</span> — 创建新的图像地图，为您手持的原版地图添加叠加层</li><li><span class="cmd">/imageframe overlay &lt;name&gt; &lt;url&gt; selection</span> — 创建新的图像地图，为您选中的物品展示框中的原版地图添加叠加层</li><li><span class="cmd">/imageframe clone &lt;name&gt; &lt;new_name&gt;</span> — 创建与旧地图属性相同的新图像地图</li><li><span class="cmd">/imageframe clone &lt;name&gt; &lt;new_name&gt; selection</span> — 创建与旧地图属性相同的新图像地图并直接放入选中的物品展示框</li><li><span class="cmd">/imageframe clone &lt;name&gt; &lt;new_name&gt; combined</span> — 创建与旧地图属性相同的新图像地图并获取其组合图像地图物品</li><li><span class="cmd">/imageframe playback &lt;name&gt; pause</span> — 切换动态图像地图的暂停状态</li><li><span class="cmd">/imageframe playback &lt;name&gt; jumpto &lt;seconds&gt;</span> — 跳转到动态图像地图的指定秒数</li><li><span class="cmd">/imageframe refresh [optional:image_name] [optional:new_url]</span> — 从源 URL 刷新您创建的地图</li><li><span class="cmd">/imageframe info</span> — 获取您手持的图像地图的相关信息</li><li><span class="cmd">/imageframe get &lt;name&gt;</span> — 获取您自己创建的现有图像地图</li><li><span class="cmd">/imageframe get &lt;name&gt; selection</span> — 将您自己创建的现有图像地图直接放入选中的物品展示框</li><li><span class="cmd">/imageframe get &lt;name&gt; combined</span> — 以组合图像地图形式获取您自己创建的现有图像地图</li><li><span class="cmd">/imageframe delete &lt;name&gt;</span> — 删除您自己创建的现有图像地图</li><li><span class="cmd">/imageframe rename &lt;name&gt; &lt;new_name&gt;</span> — 重命名您自己创建的现有图像地图</li><li><span class="cmd">/imageframe list</span> — 列出您自己创建的所有现有图像地图</li></ul></div>
+                <div class="feature-card"><h3>💬 头顶消息</h3><p><span class="label">功能：</span>当玩家向聊天发送消息时，该插件会在玩家头顶短暂显示消息。该插件的功能基于文本显示实体。</p></div>
+                <div class="feature-card"><h3>🎨 离线皮肤</h3><p>以下命令也可通过拥有对应权限来使用：</p><ul><li><span class="cmd">/skin</span> — 更改您自己的皮肤。</li><li><span class="cmd">/skin set &lt;skinName&gt;</span> — 更改您的皮肤。</li><li><span class="cmd">/skin set &lt;skinName&gt; &lt;target&gt;</span> — 为目标玩家设置皮肤。</li><li><span class="cmd">/skin url &lt;url&gt;</span> — 从 URL 更改您的皮肤。</li></ul></div>
+                <div class="feature-card"><h3>🏪 商店</h3><p><span class="label">商店：</span><span class="cmd">/shop</span> 打开商店。</p></div>
 
-                <!-- 登录 -->
+                <!-- 🌀 设点传送 -->
                 <div class="feature-card">
-                    <h3>🔐 登录</h3>
-                    <p>使用密码登录保护您的账号安全。即使是正版账号，也需使用密码。</p>
-                    <p><span class="label">基本命令：</span></p>
+                    <h3>🌀 设点传送</h3>
+                    <p><span class="label">功能：</span>设点传送插件允许玩家创建个人传送点，快速在各地之间移动。</p>
+                    <p style="margin-top:10px;"><span class="label">常用命令：</span></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>命令</th>
+                                <th>作用</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><span class="cmd">/tpa &lt;玩家&gt;</span></td><td>向玩家发出传送申请</td></tr>
+                            <tr><td><span class="cmd">/tpaccept</span></td><td>允许传送</td></tr>
+                            <tr><td><span class="cmd">/tpadeny</span></td><td>拒绝传送</td></tr>
+                            <tr><td><span class="cmd">/tpm home</span> 或 <span class="cmd">/tpm h</span></td><td>回到你的重生点（床或服务器出生点）</td></tr>
+                            <tr><td><span class="cmd">/tpm lobby</span> 或 <span class="cmd">/tpm l</span></td><td>传送到主城</td></tr>
+                            <tr><td><span class="cmd">/tpm pa &lt;名称&gt; ~ ~ ~</span></td><td><strong>在你当前位置</strong>添加一个传送点（名字自定）</td></tr>
+                            <tr><td><span class="cmd">/tpm p &lt;名称&gt;</span></td><td>传送到你保存的某个传送点</td></tr>
+                            <tr><td><span class="cmd">/tpm list</span></td><td>查看你所有的传送点列表</td></tr>
+                            <tr><td><span class="cmd">/tpm pr</span></td><td>查看你还能再创建几个传送点</td></tr>
+                            <tr><td><span class="cmd">/tpm pb &lt;数量&gt;</span></td><td>花钱购买额外的传送点额度（默认 12000 金币/个）</td></tr>
+                            <tr><td><span class="cmd">/tpm set &lt;传送点&gt; rename &lt;新名字&gt;</span></td><td>重命名一个传送点（需花费 500 金币）</td></tr>
+                            <tr><td><span class="cmd">/tpm set &lt;传送点&gt; delete</span></td><td>删除一个传送点（会返还 10000 金币）</td></tr>
+                            <tr><td><span class="cmd">/tpm set &lt;传送点&gt; move ~ ~ ~</span></td><td>把传送点移到你现在站的位置</td></tr>
+                            <tr><td><span class="cmd">/tpm suicide</span></td><td>自杀（无需 OP，会广播坐标）</td></tr>
+                            <tr><td><span class="cmd">/tpm help</span></td><td>显示完整帮助</td></tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top:10px;"><span class="label">💡 小提示：</span></p>
                     <ul>
-                        <li><span class="cmd">/reg &lt;密码&gt; &lt;重复密码&gt;</span> 或 <span class="cmd">/register &lt;密码&gt; &lt;重复密码&gt;</span> — 注册。两次密码输入必须一样。密码至少6位。</li>
-                        <li><span class="cmd">/l &lt;密码&gt;</span> 或 <span class="cmd">/login &lt;密码&gt;</span> — 登录。</li>
-                        <li><span class="cmd">/unreg</span> — 注销。</li>
+                        <li>每个玩家<strong>初始有 2 个传送点额度</strong>，用完后可以购买更多。</li>
+                        <li>添加传送点时，可以使用 <span class="cmd">~ ~ ~</span> 代表<strong>你当前所在的位置</strong>，非常方便！</li>
+                        <li>删除传送点会返还金钱，但不返还额度。</li>
+                        <li>所有传送点数据都是<strong>个人专属</strong>，别人看不到也用不了你的传送点。</li>
                     </ul>
-                </div>
-
-                <!-- 工具使用统计 -->
-                <div class="feature-card">
-                    <h3>🔧 工具使用统计</h3>
-                    <p><span class="label">以下是它统计的所有内容：</span></p>
-                    <ul>
-                        <li>开采的方块（使用镐、铲、斧、锄、剪）。</li>
-                        <li>作物被挖掘（用锄头）。</li>
-                        <li>玩家/怪物被杀（使用剑、斧、三叉戟、弓/弩、锤）。</li>
-                        <li>物品在制作、从宝箱/金库/桶中掠夺、交易、通过创造模式生成以及钓鱼获得时的所有权。</li>
-                        <li>受到护甲伤害。</li>
-                        <li>用武器造成的伤害。</li>
-                        <li>鱼已捕到。</li>
-                        <li>绵羊被剪毛了。</li>
-                        <li>射箭（弓/弩）。</li>
-                        <li>鞘翅的飞行时间。</li>
-                    </ul>
-                </div>
-
-                <!-- 遥远的天际线支持 -->
-                <div class="feature-card">
-                    <h3>🌄 遥远的天际线支持</h3>
-                    <p><span class="label">开放说明：</span>限时开放。开放时间详见 QQ 群或 Wiki 主页的服务器新闻。开放时支持 768 区块。</p>
-                    <p><span class="label">功能：</span>此插件生成并发送所需数据，以便 Distant Horizons 在您的服务器上提供几乎无限的视野距离。</p>
-                </div>
-
-                <!-- 地图画 -->
-                <div class="feature-card">
-                    <h3>🖼️ 地图画</h3>
-                    <p><span class="label">地图画功能：</span></p>
-                    <ul>
-                        <li><strong>从 URL 加载图片到地图或物品展示框</strong> — 支持 PNG、JPEG、WEBP 和 GIF 格式！可以生成地图形式或直接放在物品展示框上（使用智能选择工具选择物品展示框）。自动图片适配意味着图片不会被拉伸！</li>
-                        <li><strong>支持动态 GIF</strong> — 如果图片是 GIF，则会动起来！最高可达每秒 20 帧。动画任务异步运行。</li>
-                        <li><strong>自定义宽度和高度</strong> — 让图片横跨多张地图，自动适配所有尺寸，非常适合在物品展示框上展示！</li>
-                        <li><strong>给原版地图添加叠加层</strong> — 手持原版地图创建图像地图，或通过选择物品展示框中的地图来跨多张地图创建。</li>
-                        <li><strong>组合图像地图便于放置</strong> — 将整个多部分图像地图作为一个组合物品获取！自动寻找空间将图像地图放置在物品展示框墙（或地板/天花板）上。点击的物品展示框视为左上角（如果有足够空间）。当被破坏时，整个组合地图会被移除并返回一个组合地图物品。尊重其他插件的物品展示框保护（通过调用 Bukkit 事件）。</li>
-                        <li><strong>轻松刷新地图</strong> — 用一个简单的命令从 URL 源刷新同一图像地图的所有副本！非常适合展示需要定期更新且无需逐个替换的信息。</li>
-                        <li><strong>添加地图标记</strong> — 可使用任何地图图标，比如原版制图师地图上的府邸和神庙图标！还可以在图标下方添加可选文字行。可配置每张地图的最大标记数量。非常适合在自定义图像地图上标记位置！</li>
-                        <li><strong>生存友好</strong> — 要求生存模式的玩家在创建图像地图时，背包中必须有空地图（使用玩家命令）。即使在物品展示框上直接创建图像或获取组合图像地图物品时也有效。可在配置中调整。</li>
-                        <li><strong>易于管理和追踪</strong> — 提供命令帮助玩家和管理员管理自己（或所有人）创建的图像地图。可以与其他玩家共享图像地图的访问权限！可为不同玩家设置不同的权限级别（例如列出某玩家的所有地图、重命名等）。可为每个玩家设置图像创建限制（每个玩家可不同！）。可设置单个图像帧的最大尺寸（同样可自定义）。支持从 ImageOnMap 和 DrMap 迁移（如需更多插件支持请求，请联系我）。</li>
-                        <li><strong>隐形物品展示框</strong> — 内置支持生存友好的隐形物品展示框！用隐身药水喷溅物品展示框即可获得。可在配置中调整。</li>
-                    </ul>
-                    <p><span class="label">地图画指令：</span></p>
-                    <ul>
-                        <li><span class="cmd">/imageframe select</span> — 选择要放置图像地图的物品展示框</li>
-                        <li><span class="cmd">/imageframe create &lt;name&gt; &lt;url&gt; &lt;width&gt; &lt;height&gt;</span> — 创建新的图像地图</li>
-                        <li><span class="cmd">/imageframe create &lt;name&gt; &lt;url&gt; selection</span> — 创建新的图像地图并直接放入选中的物品展示框</li>
-                        <li><span class="cmd">/imageframe create &lt;name&gt; &lt;url&gt; &lt;width&gt; &lt;height&gt; combined</span> — 创建新的图像地图并获取其组合图像地图物品</li>
-                        <li><span class="cmd">/imageframe overlay &lt;name&gt; &lt;url&gt;</span> — 创建新的图像地图，为您手持的原版地图添加叠加层</li>
-                        <li><span class="cmd">/imageframe overlay &lt;name&gt; &lt;url&gt; selection</span> — 创建新的图像地图，为您选中的物品展示框中的原版地图添加叠加层</li>
-                        <li><span class="cmd">/imageframe clone &lt;name&gt; &lt;new_name&gt;</span> — 创建与旧地图属性相同的新图像地图</li>
-                        <li><span class="cmd">/imageframe clone &lt;name&gt; &lt;new_name&gt; selection</span> — 创建与旧地图属性相同的新图像地图并直接放入选中的物品展示框</li>
-                        <li><span class="cmd">/imageframe clone &lt;name&gt; &lt;new_name&gt; combined</span> — 创建与旧地图属性相同的新图像地图并获取其组合图像地图物品</li>
-                        <li><span class="cmd">/imageframe playback &lt;name&gt; pause</span> — 切换动态图像地图的暂停状态</li>
-                        <li><span class="cmd">/imageframe playback &lt;name&gt; jumpto &lt;seconds&gt;</span> — 跳转到动态图像地图的指定秒数</li>
-                        <li><span class="cmd">/imageframe refresh [optional:image_name] [optional:new_url]</span> — 从源 URL 刷新您创建的地图</li>
-                        <li><span class="cmd">/imageframe info</span> — 获取您手持的图像地图的相关信息</li>
-                        <li><span class="cmd">/imageframe get &lt;name&gt;</span> — 获取您自己创建的现有图像地图</li>
-                        <li><span class="cmd">/imageframe get &lt;name&gt; selection</span> — 将您自己创建的现有图像地图直接放入选中的物品展示框</li>
-                        <li><span class="cmd">/imageframe get &lt;name&gt; combined</span> — 以组合图像地图形式获取您自己创建的现有图像地图</li>
-                        <li><span class="cmd">/imageframe delete &lt;name&gt;</span> — 删除您自己创建的现有图像地图</li>
-                        <li><span class="cmd">/imageframe rename &lt;name&gt; &lt;new_name&gt;</span> — 重命名您自己创建的现有图像地图</li>
-                        <li><span class="cmd">/imageframe list</span> — 列出您自己创建的所有现有图像地图</li>
-                    </ul>
-                </div>
-
-                <!-- 头顶消息 -->
-                <div class="feature-card">
-                    <h3>💬 头顶消息</h3>
-                    <p><span class="label">功能：</span>当玩家向聊天发送消息时，该插件会在玩家头顶短暂显示消息。该插件的功能基于文本显示实体。</p>
-                </div>
-
-                <!-- 离线皮肤 -->
-                <div class="feature-card">
-                    <h3>🎨 离线皮肤</h3>
-                    <p>以下命令也可通过拥有对应权限来使用：</p>
-                    <ul>
-                        <li><span class="cmd">/skin</span> — 更改您自己的皮肤。</li>
-                        <li><span class="cmd">/skin set &lt;skinName&gt;</span> — 更改您的皮肤。</li>
-                        <li><span class="cmd">/skin set &lt;skinName&gt; &lt;target&gt;</span> — 为目标玩家设置皮肤。</li>
-                        <li><span class="cmd">/skin url &lt;url&gt;</span> — 从 URL 更改您的皮肤。</li>
-                    </ul>
-                </div>
-
-                <!-- 商店及签到 -->
-                <div class="feature-card">
-                    <h3>🏪 商店及签到</h3>
-                    <p><span class="label">商店：</span><span class="cmd">/shop</span> 打开商店。</p>
-                    <p><span class="label">签到：</span>签到可以使你获得物资。<span class="cmd">/signin gui</span> 打开签到界面。</p>
                 </div>
             </div>
         </div>
 
+        <!-- ============================================================ -->
         <!-- ====== 标签页：服务器历史 ====== -->
         <div id="history" class="tab-content" role="tabpanel">
             <div class="page-section">
                 <div class="feature-card" style="border-color:#6d4c2a;">
                     <h3>📜 服务器历史 · 更新日志</h3>
-                    <div class="intro-text history-list" id="historyContent">
-                        <!-- 由 JavaScript 动态渲染 -->
-                    </div>
+                    <div class="intro-text history-list" id="historyContent"><!-- 由 JS 渲染 --></div>
                 </div>
             </div>
         </div>
 
+        <!-- ============================================================ -->
         <!-- ====== 标签页：服务器规则 ====== -->
         <div id="rules" class="tab-content" role="tabpanel">
             <div class="page-section rules-section">
                 <div class="feature-card" style="border-color:#6d4c2a;">
                     <h3>📋 服务器规则</h3>
-                    <p style="font-size:12px; color:#d4c9b0; margin-bottom:12px;">
-                        服务器宗旨：我们致力于打造一个专注、专业、友好的建筑服务器。请所有玩家遵守以下规则，共同维护优质的创作环境。
-                    </p>
-
+                    <p style="font-size:12px; color:#d4c9b0; margin-bottom:12px;">服务器宗旨：我们致力于打造一个专注、专业、友好的建筑服务器。请所有玩家遵守以下规则，共同维护优质的创作环境。</p>
                     <div class="rule-chapter">
+                        <p><strong>第一章：建筑创作与版权</strong></p>
                         <p><strong>1. 核心原则：禁止破坏与抄袭。</strong>严禁任何形式的恶意破坏、修改、污染他人建筑作品（包括地形、结构、内饰、红石装置等）。严禁完全照搬或高度模仿其他玩家的原创建筑设计并声称原创。受灵感启发进行创作是允许的，但需保持显著差异并可在交流时注明灵感来源。</p>
                         <p><strong>2. 合理的资源获取。</strong>可以通过远离城市的无人区域挖掘或使用指令 <span class="cmd">/shop</span> 打开商店购买物品。严禁在他人建筑范围或服务器设施内随意挖掘地形、砍伐森林以获取原材料，破坏自然景观。</p>
                         <p><strong>3. 良好的交流礼仪。</strong>在聊天栏或讨论群中，请保持专业与友善，专注于建筑技巧、红石机械、设计理念的交流。欢迎提出建设性批评，但禁止对他人作品进行人身攻击或恶意贬低。</p>
@@ -698,17 +1017,13 @@
                         <p><strong>5. 违规处理。</strong>服务器每周定期备份。对于恶意破坏行为，将采取 <strong>【100%回滚操作】</strong>，视情况没收物品、暂时或永久封禁等严厉处罚。对于抄袭纠纷，管理员将进行调查与裁定。首次违反可能面临警告、要求修改作品或取消参赛/建筑师认证的处理。</p>
                         <p><strong>6. 举报与申诉。</strong>发现违规行为，请立即截图（含坐标与游戏ID）或录制视频，并向官网 <strong>相关链接-反馈/举报</strong> 或 QQ群群主 举报。</p>
                     </div>
-
-                    <p style="margin-top:16px; font-size:12px; color:#b8a88a; border-top:2px solid #4d351e; padding-top:12px;">
-                        结语：在 Modern Craft，每一份创意都值得尊重，每一处风景都需共同守护。让我们用方块构建现代美学，用规则奠基创作乐园。
-                    </p>
-                    <p style="margin-top:8px; font-size:12px; color:#7cb84a;">
-                        祝您在 Modern Craft 建造愉快，灵感永驻！
-                    </p>
+                    <p style="margin-top:16px; font-size:12px; color:#b8a88a; border-top:2px solid #4d351e; padding-top:12px;">结语：在 Modern Craft，每一份创意都值得尊重，每一处风景都需共同守护。让我们用方块构建现代美学，用规则奠基创作乐园。</p>
+                    <p style="margin-top:8px; font-size:12px; color:#7cb84a;">祝您在 Modern Craft 建造愉快，灵感永驻！</p>
                 </div>
             </div>
         </div>
 
+        <!-- ============================================================ -->
         <!-- ====== 标签页：相关链接 ====== -->
         <div id="links" class="tab-content" role="tabpanel">
             <div class="page-section">
@@ -725,23 +1040,32 @@
             </div>
         </div>
 
-        <!-- 页脚装饰 -->
+        <!-- 页脚 -->
         <div style="margin-top:16px; text-align:center; font-size:9px; color:#5a4a3a; letter-spacing:2px; border-top:2px solid #3d2b1a; padding-top:12px;">
             ◆ ◆ ◆  Modern Craft  ·  since 2023  ◆ ◆ ◆
         </div>
 
     </div>
 
+    <!-- ============================================================ -->
+    <!-- ====== JavaScript ====== -->
     <script>
         (function() {
             'use strict';
 
-            // ============================
+            // ================================================================
+            // 0. 公共配置
+            // ================================================================
+            const MOTD_API = 'https://motd.minebbs.com/api/status?ip=';
+            const MAIN_HOST = 'mdc-mc.cc.cd';
+
+            // ================================================================
             // 1. 标签页切换（包括相册跳转）
-            // ============================
+            // ================================================================
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = {
                 home: document.getElementById('home'),
+                network: document.getElementById('network'),
                 gallery: document.getElementById('gallery'),
                 play: document.getElementById('play'),
                 history: document.getElementById('history'),
@@ -749,7 +1073,6 @@
                 links: document.getElementById('links')
             };
 
-            // 检查 URL hash 来激活对应标签
             function activateTabFromHash() {
                 const hash = window.location.hash.replace('#', '');
                 if (hash && tabContents[hash]) {
@@ -765,7 +1088,6 @@
             }
 
             if (!activateTabFromHash()) {
-                // 默认激活主页
                 document.querySelector('.tab-btn[data-tab="home"]').classList.add('active');
                 tabContents.home.classList.add('active');
             }
@@ -774,18 +1096,14 @@
                 activateTabFromHash();
             });
 
-            // 点击标签切换
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');
                     if (!tabId) return;
-
-                    // 如果点击的是“相册”，跳转到 gallery.html
                     if (tabId === 'gallery') {
                         window.location.href = 'gallery.html';
                         return;
                     }
-
                     tabBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     Object.keys(tabContents).forEach(key => {
@@ -794,12 +1112,20 @@
                     if (history.pushState) {
                         history.pushState(null, '', '#' + tabId);
                     }
+                    // 切换到网络页时刷新数据
+                    if (tabId === 'network') {
+                        initNetworkPage();
+                    }
+                    // 切换到主页时立即刷新一次
+                    if (tabId === 'home') {
+                        fetchHomeData();
+                    }
                 });
             });
 
-            // ============================
-            // 2. 地址复制功能
-            // ============================
+            // ================================================================
+            // 2. Toast & 复制功能
+            // ================================================================
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
             let toastTimer = null;
@@ -814,45 +1140,536 @@
             }
 
             function fallbackCopy(text) {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                textarea.style.position = 'fixed';
-                textarea.style.left = '-9999px';
-                textarea.style.top = '-9999px';
-                document.body.appendChild(textarea);
-                textarea.focus();
-                textarea.select();
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                ta.style.top = '-9999px';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
                 try {
-                    const success = document.execCommand('copy');
-                    if (success) {
+                    if (document.execCommand('copy')) {
                         showToast('✅ 已复制: ' + text);
                     } else {
                         showToast('❌ 复制失败，请手动复制');
                     }
-                } catch (err) {
+                } catch (_) {
                     showToast('❌ 复制失败，请手动复制');
                 }
-                document.body.removeChild(textarea);
+                document.body.removeChild(ta);
             }
 
-            document.querySelectorAll('.address-value').forEach(el => {
-                el.addEventListener('click', function() {
-                    const text = this.getAttribute('data-copy') || this.textContent.trim();
-                    if (!text) return;
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(text)
-                            .then(() => showToast('✅ 已复制: ' + text))
-                            .catch(() => fallbackCopy(text));
+            function copyText(text) {
+                if (!text) return;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text)
+                        .then(() => showToast('✅ 已复制: ' + text))
+                        .catch(() => fallbackCopy(text));
+                } else {
+                    fallbackCopy(text);
+                }
+            }
+
+            // ================================================================
+            // 3. 解析 MOTD（带颜色代码）—— 支持多行
+            // ================================================================
+            const colorMap = {
+                '0': '#000000', '1': '#0000AA', '2': '#00AA00', '3': '#00AAAA',
+                '4': '#AA0000', '5': '#AA00AA', '6': '#FFAA00', '7': '#AAAAAA',
+                '8': '#555555', '9': '#5555FF', 'a': '#55FF55', 'b': '#55FFFF',
+                'c': '#FF5555', 'd': '#FF55FF', 'e': '#FFFF55', 'f': '#FFFFFF'
+            };
+
+            function processExtra(extra, parentColor) {
+                let html = '';
+                const currentColor = parentColor || '#e6d7b8';
+                if (!extra) return html;
+                extra.forEach(item => {
+                    let text = item.text || '';
+                    let color = currentColor;
+                    if (item.color && colorMap[item.color]) {
+                        color = colorMap[item.color];
+                    } else if (item.color) {
+                        color = item.color;
+                    }
+                    if (item.extra) {
+                        html += `<span style="color:${color};">${text}${processExtra(item.extra, color)}</span>`;
                     } else {
-                        fallbackCopy(text);
+                        html += `<span style="color:${color};">${text}</span>`;
                     }
                 });
-                el.title = '点击复制';
-            });
+                return html;
+            }
 
-            // ============================
-            // 3. 渲染服务器历史
-            // ============================
+            function parseMotd(motdObj) {
+                // 将 MOTD 对象展平为 { text, color } 片段数组，保留换行符
+                function flatten(obj, parentColor) {
+                    const cc = parentColor || '#e6d7b8';
+                    const out = [];
+                    if (!obj) return out;
+                    if (typeof obj === 'string') {
+                        out.push({ text: obj, color: cc });
+                        return out;
+                    }
+                    let myColor = cc;
+                    if (obj.color) {
+                        myColor = colorMap[obj.color] || obj.color;
+                    }
+                    if (obj.text) {
+                        out.push({ text: obj.text, color: myColor });
+                    }
+                    if (obj.extra && obj.extra.length) {
+                        obj.extra.forEach(e => {
+                            const sub = flatten(e, myColor);
+                            // 合并相邻同色片段
+                            sub.forEach(seg => {
+                                const last = out[out.length - 1];
+                                if (last && last.color === seg.color && !seg.text.includes('\n')) {
+                                    last.text += seg.text;
+                                } else {
+                                    out.push(seg);
+                                }
+                            });
+                        });
+                    }
+                    return out;
+                }
+
+                // 将片段数组按 \n 分割成多行，每行包裹为带颜色的 span
+                function renderLines(segments) {
+                    const lines = [''];
+                    const colors = ['#e6d7b8'];
+                    segments.forEach(seg => {
+                        const parts = seg.text.split('\n');
+                        for (let i = 0; i < parts.length; i++) {
+                            if (parts[i]) {
+                                if (lines[lines.length - 1] === '') {
+                                    lines[lines.length - 1] = `<span style="color:${seg.color};">${parts[i]}</span>`;
+                                } else {
+                                    lines[lines.length - 1] += `<span style="color:${seg.color};">${parts[i]}</span>`;
+                                }
+                            }
+                            if (i < parts.length - 1) {
+                                lines.push('');
+                            }
+                        }
+                    });
+                    return lines.map(l => `<span class="motd-line">${l || '&nbsp;'}</span>`).join('');
+                }
+
+                if (typeof motdObj === 'string') {
+                    return motdObj.split('\n').map(line =>
+                        `<span class="motd-line">${line}</span>`
+                    ).join('');
+                }
+
+                if (motdObj.extra || motdObj.text) {
+                    const segs = flatten(motdObj);
+                    return renderLines(segs);
+                }
+
+                return `<span class="motd-line">${JSON.stringify(motdObj)}</span>`;
+            }
+
+            // ================================================================
+            // 4. 获取服务器状态 API（MOTD API）
+            // ================================================================
+            let cachedServerData = null;
+            let isFetchingHome = false; // 防止并发请求
+
+            function fetchServerData(host, useSrv, port) {
+                let url = MOTD_API + encodeURIComponent(host);
+                if (port) {
+                    url += '&port=' + encodeURIComponent(port);
+                }
+                if (useSrv) {
+                    url += '&stype=srv&srv=true';
+                } else {
+                    url += '&stype=be&srv=false';
+                }
+                return fetch(url, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json, text/plain, */*' },
+                    mode: 'cors'
+                }).then(res => {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.json();
+                });
+            }
+
+            function parseServerData(data) {
+                let result = {
+                    online: false,
+                    playersOnline: 0,
+                    playersMax: 1440,
+                    version: '未知',
+                    motdHtml: '',
+                    motdText: '',
+                    icon: '',
+                    playerList: [],
+                    delay: -1,
+                    type: ''
+                };
+
+                if (!data) return result;
+
+                result.type = data.type || '';
+
+                // 状态
+                if (data.status === 'online') result.online = true;
+                if (data.online === true || data.online === 'true') result.online = true;
+
+                // 版本
+                if (data.version) result.version = data.version;
+
+                // 延迟
+                if (data.delay !== undefined) result.delay = Number(data.delay) || -1;
+
+                // 玩家
+                if (data.players) {
+                    if (data.players.online !== undefined) {
+                        result.playersOnline = Number(data.players.online) || 0;
+                    }
+                    if (data.players.max !== undefined) {
+                        result.playersMax = Number(data.players.max) || 1440;
+                    }
+                    if (data.players.sample) {
+                        if (typeof data.players.sample === 'string') {
+                            result.playerList = [data.players.sample];
+                        } else if (Array.isArray(data.players.sample)) {
+                            result.playerList = data.players.sample.map(p => {
+                                if (typeof p === 'string') return p;
+                                return p.name || p.displayName || JSON.stringify(p);
+                            });
+                        }
+                    }
+                }
+
+                // MOTD
+                if (data.motd) {
+                    result.motdHtml = parseMotd(data.motd);
+                } else if (data.pureMotd) {
+                    result.motdHtml = parseMotd(data.pureMotd);
+                }
+                if (data.pureMotd) {
+                    result.motdText = data.pureMotd.replace(/\n/g, ' | ');
+                }
+
+                // 图标
+                if (data.icon) {
+                    result.icon = data.icon;
+                }
+
+                return result;
+            }
+
+            // ================================================================
+            // 5. 主页：服务器情况 + 在线玩家列表（修复实时更新）
+            // ================================================================
+            const statusOnline = document.getElementById('statusOnline');
+            const statusPlayers = document.getElementById('statusPlayers');
+            const statusVersion = document.getElementById('statusVersion');
+            const statusDelay = document.getElementById('statusDelay');
+            const playerListEl = document.getElementById('playerList');
+
+            function updateHomePage(data) {
+                // 服务器状态
+                if (data.online) {
+                    statusOnline.innerHTML = '<span class="badge badge-online">● 在线</span>';
+                } else {
+                    statusOnline.innerHTML = '<span class="badge badge-offline">● 离线</span>';
+                }
+
+                // 玩家数量（不减1，直接显示API返回的真实在线人数）
+                statusPlayers.textContent = data.playersOnline + ' / ' + data.playersMax;
+                statusVersion.textContent = data.version;
+
+                // 延迟
+                if (data.delay >= 0) {
+                    let delayColor = '#7cb84a';
+                    if (data.delay > 150) delayColor = '#c9a83a';
+                    if (data.delay > 300) delayColor = '#c97a3a';
+                    statusDelay.innerHTML = `<span style="color:${delayColor};">${data.delay} ms</span>`;
+                } else {
+                    statusDelay.textContent = 'N/A';
+                }
+
+                // 在线玩家列表
+                if (!data.online) {
+                    playerListEl.innerHTML = '<div class="player-empty">⚠ 服务器当前离线</div>';
+                    return;
+                }
+
+                if (data.playerList.length === 0) {
+                    playerListEl.innerHTML = '<div class="player-empty">😴 当前没有玩家在线</div>';
+                    return;
+                }
+
+                let html = '';
+                data.playerList.forEach(name => {
+                    const headUrl = 'https://mc-heads.net/avatar/' + encodeURIComponent(name) + '/64';
+                    html += `
+                        <div class="player-item">
+                            <img class="player-head" src="${headUrl}" alt="${name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2228%22 height=%2228%22><rect width=%2228%22 height=%2228%22 fill=%22%233d2b1a%22/></svg>';" />
+                            <span class="player-name">${name}</span>
+                        </div>
+                    `;
+                });
+                playerListEl.innerHTML = html;
+            }
+
+            function fetchHomeData() {
+                if (isFetchingHome) return; // 防止并发
+                isFetchingHome = true;
+
+                fetchServerData(MAIN_HOST, true)
+                    .then(data => {
+                        const parsed = parseServerData(data);
+                        cachedServerData = parsed;
+                        updateHomePage(parsed);
+                    })
+                    .catch(err => {
+                        console.warn('获取服务器数据失败:', err);
+                        statusOnline.innerHTML = '<span class="badge badge-offline">⚠ 获取失败</span>';
+                        statusPlayers.textContent = '-- / 1440';
+                        statusVersion.textContent = '未知';
+                        statusDelay.textContent = '--';
+                        playerListEl.innerHTML = '<div class="player-empty">⚠ 无法获取玩家列表</div>';
+                    })
+                    .finally(() => {
+                        isFetchingHome = false;
+                    });
+            }
+
+            // 立即执行 + 每30秒刷新（更频繁确保实时更新）
+            fetchHomeData();
+            setInterval(fetchHomeData, 30000);
+
+            // ================================================================
+            // 6. 网络页：服务器信息 + 延迟监测（行式）+ 基岩版
+            // ================================================================
+            const networkList = document.getElementById('networkList');
+            const bedrockList = document.getElementById('bedrockList');
+            const serverIcon = document.getElementById('serverIcon');
+            const serverInfoText = document.getElementById('serverInfoText');
+
+            // Java版线路
+            const lines = [
+                { name: '主线路', host: 'mdc-mc.cc.cd' },
+                { name: '备用1', host: 'a.mdc-mc.cc.cd' },
+                { name: '备用2', host: 'b.mdc-mc.cc.cd' },
+                { name: '备用3', host: 'c.mdc-mc.cc.cd' },
+                { name: '备用4', host: 'd.mdc-mc.cc.cd' },
+                { name: '备用5', host: 'e.mdc-mc.cc.cd' },
+                { name: '阿里云广州 (晚上可能掉线)', host: 'gz.mdc-mc.cc.cd' },
+                { name: '湖北襄阳', host: 'xy.mdc-mc.cc.cd' },
+                { name: '新加坡', host: 'sg.mdc-mc.cc.cd' },
+                { name: '香港', host: 'hk.mdc-mc.cc.cd' }
+            ];
+
+            // 基岩版线路
+            const bedrockLines = [
+                { name: '主线路', host: 'be.mdc-mc.cc.cd', port: '32800' },
+                { name: '备用线路', host: 'be2.mdc-mc.cc.cd', port: '32800' }
+            ];
+
+            function getDelayClass(ping) {
+                if (ping < 80) return 'good';
+                if (ping < 200) return 'medium';
+                return 'slow';
+            }
+
+            function getDelayColor(ping) {
+                if (ping < 80) return '#7cb84a';
+                if (ping < 200) return '#c9a83a';
+                return '#c97a3a';
+            }
+
+            function updateServerInfoHeader(data) {
+                // 图标
+                if (data.icon) {
+                    serverIcon.src = data.icon;
+                    serverIcon.style.display = 'block';
+                }
+                // MOTD 两行都显示
+                let html = '';
+                if (data.motdHtml) {
+                    html += `<div class="server-motd">${data.motdHtml}</div>`;
+                } else if (data.motdText) {
+                    // 按 | 分割显示两行
+                    const parts = data.motdText.split(' | ');
+                    parts.forEach(p => {
+                        if (p.trim()) html += `<div class="server-motd"><span class="motd-line">${p.trim()}</span></div>`;
+                    });
+                }
+                let infoLine = '';
+                if (data.version) infoLine += '版本: ' + data.version;
+                if (data.delay >= 0) infoLine += ' ｜ ⏱ ' + data.delay + 'ms';
+                if (data.online) infoLine += ' ｜ <span style="color:#7cb84a;">● 在线</span>';
+                else infoLine += ' ｜ <span style="color:#c97a5a;">● 离线</span>';
+                html += `<div class="server-version">${infoLine}</div>`;
+                serverInfoText.innerHTML = html;
+            }
+
+            function renderNetworkRows() {
+                // Java版行式渲染
+                let html = '';
+                lines.forEach(line => {
+                    html += `
+                        <div class="network-row" data-host="${line.host}">
+                            <span class="row-name">${line.name}</span>
+                            <span class="row-addr">${line.host}</span>
+                            <span class="row-ping" style="color:#8a7a6a; font-size:11px; font-weight:normal;">检测中...</span>
+                        </div>
+                    `;
+                });
+                networkList.innerHTML = html;
+
+                // 绑定点击复制
+                networkList.querySelectorAll('.network-row').forEach(row => {
+                    row.addEventListener('click', function() {
+                        const host = this.getAttribute('data-host');
+                        if (host) copyText(host);
+                    });
+                });
+            }
+
+            function renderBedrockRows() {
+                let html = '';
+                bedrockLines.forEach(line => {
+                    html += `
+                        <div class="bedrock-row" data-host="${line.host}" data-port="${line.port}">
+                            <span class="row-name">${line.name}</span>
+                            <span class="row-addr">${line.host} : ${line.port}</span>
+                            <span class="row-ping" style="color:#8a7a6a; font-size:11px; font-weight:normal;">检测中...</span>
+                        </div>
+                    `;
+                });
+                bedrockList.innerHTML = html;
+
+                // 绑定点击复制
+                bedrockList.querySelectorAll('.bedrock-row').forEach(row => {
+                    row.addEventListener('click', function() {
+                        const host = this.getAttribute('data-host');
+                        const port = this.getAttribute('data-port');
+                        if (host && port) copyText(host + ':' + port);
+                    });
+                });
+            }
+
+            function fetchNetworkData() {
+                renderNetworkRows();
+
+                const rows = networkList.querySelectorAll('.network-row');
+
+                const promises = lines.map((line, index) => {
+                    return fetchServerData(line.host, true)
+                        .then(data => {
+                            const parsed = parseServerData(data);
+                            parsed._index = index;
+                            return parsed;
+                        })
+                        .catch(() => {
+                            return { _index: index, online: false, delay: -1, error: true };
+                        });
+                });
+
+                Promise.allSettled(promises).then(results => {
+                    results.forEach(result => {
+                        const data = result.value;
+                        const row = rows[data._index];
+                        if (!row) return;
+
+                        const pingEl = row.querySelector('.row-ping');
+
+                        if (data.error || !data.online || data.delay < 0) {
+                            row.className = 'network-row timeout';
+                            pingEl.innerHTML = '<span class="ping-timeout">⏱ 超时</span>';
+                        } else {
+                            const cls = getDelayClass(data.delay);
+                            row.className = 'network-row ' + cls;
+                            const color = getDelayColor(data.delay);
+                            pingEl.innerHTML = data.delay + ' <span class="ms">ms</span>';
+                            pingEl.style.color = color;
+                            pingEl.style.fontWeight = 'bold';
+                        }
+                    });
+                });
+            }
+
+            function fetchBedrockData() {
+                renderBedrockRows();
+
+                const rows = bedrockList.querySelectorAll('.bedrock-row');
+
+                const promises = bedrockLines.map((line, index) => {
+                    return fetchServerData(line.host, false, line.port)
+                        .then(data => {
+                            const parsed = parseServerData(data);
+                            parsed._index = index;
+                            return parsed;
+                        })
+                        .catch(() => {
+                            return { _index: index, online: false, delay: -1, error: true, version: '未知' };
+                        });
+                });
+
+                Promise.allSettled(promises).then(results => {
+                    results.forEach(result => {
+                        const data = result.value;
+                        const row = rows[data._index];
+                        if (!row) return;
+
+                        const pingEl = row.querySelector('.row-ping');
+
+                        if (data.error || !data.online || data.delay < 0) {
+                            row.className = 'bedrock-row timeout';
+                            pingEl.innerHTML = '<span class="ping-timeout">⏱ 超时</span>';
+                        } else {
+                            const cls = getDelayClass(data.delay);
+                            row.className = 'bedrock-row ' + cls;
+                            const color = getDelayColor(data.delay);
+                            pingEl.innerHTML = data.delay + ' <span class="ms">ms</span> | v' + data.version;
+                            pingEl.style.color = color;
+                            pingEl.style.fontWeight = 'bold';
+                        }
+                    });
+                });
+            }
+
+            function initNetworkPage() {
+                // 优先使用已缓存的主服务器数据更新头部
+                if (cachedServerData) {
+                    updateServerInfoHeader(cachedServerData);
+                } else {
+                    fetchServerData(MAIN_HOST, true)
+                        .then(data => {
+                            const parsed = parseServerData(data);
+                            cachedServerData = parsed;
+                            updateServerInfoHeader(parsed);
+                        })
+                        .catch(() => {
+                            serverInfoText.innerHTML = '<div class="player-empty">⚠ 无法获取服务器信息</div>';
+                        });
+                }
+
+                // 获取所有线路延迟（Java版）
+                fetchNetworkData();
+
+                // 获取基岩版线路状态
+                fetchBedrockData();
+            }
+
+            // 页面加载时如果 hash 是 network 也初始化
+            const initialHash = window.location.hash.replace('#', '');
+            if (initialHash === 'network') {
+                initNetworkPage();
+            }
+
+            // ================================================================
+            // 7. 服务器历史
+            // ================================================================
             const historyData = [
                 { date: '2026-7-6', desc: '加入反外挂插件，防止打服。' },
                 { date: '2026-7-5', desc: '建立Modern Craft官网' },
@@ -863,9 +1680,8 @@
                 { date: '2026-3-22', desc: '建立Wiki' },
                 { date: '2026-3-21', desc: '加入玩家举报/问题反馈/提建议/Bug报告链接' },
                 { date: '2026-3-19', desc: '加入1000+成就数据包。翻译及优化工作持续进行。' },
-                { date: '2026-1-24', desc: '升级Minecraft 1.21.10，客户端兼容至1.21.11。新内容：更多的铜方块、铜傀儡等。' },
                 { date: '2026-1-28', desc: '因为升级1.21.11后存在太阳不动的Bug，回滚Paper-1.21.10-74。' },
-                { date: '2026-1-24', desc: '修改地形数据包的一个函数以支持1.21.9+，升级Paper-1.21.11-99。' },
+                { date: '2026-1-24', desc: '升级Minecraft 1.21.10，客户端兼容至1.21.11。新内容：更多的铜方块、铜傀儡等。修改地形数据包的一个函数以支持1.21.9+，升级Paper-1.21.11-99。' },
                 { date: '2025-10-15', desc: '升级paper-1.21.10-74，但是因为被地形数据包卡脖子而升级失败报错。' },
                 { date: '2025-8-14', desc: '升级paper-1.21.8-31' },
                 { date: '2025-6-21', desc: '升级paper-1.21.5-114' },
@@ -879,14 +1695,14 @@
                 { date: '2024-2-2', desc: '加入一键砍树/挖矿插件。' },
                 { date: '2024-1-17 19:45', desc: '加入密码登录插件' },
                 { date: '2024-1-16 19:05', desc: '因为离线玩家无需密码，导致频繁被盗号、账号异地登陆、OP泛滥，升级spigot-1.20.1-R0.1-SNAPSHOT，正式变为插件服，准备加入密码登录插件。' },
-                { date: '2023-11-18', desc: '服务器更名为“SURVIVAL SERVER 1.20 MINECRAFT CITY”' },
+                { date: '2023-11-18', desc: '服务器更名为"SURVIVAL SERVER 1.20 MINECRAFT CITY"' },
                 { date: '2023-9-11', desc: '升级 Vanilla 1.20.1' },
                 { date: '2023-8', desc: '服务器开服' },
                 { date: '2023-8-14', desc: '这是最早可以找到的世界创建时间。' }
             ];
 
-            const historyContainer = document.getElementById('historyContent');
-            if (historyContainer) {
+            const hc = document.getElementById('historyContent');
+            if (hc) {
                 let html = '';
                 historyData.forEach(item => {
                     html += `<div style="display:flex; padding:10px 0; border-bottom:1px dashed rgba(60,40,25,0.5); gap:20px; align-items:baseline;">
@@ -894,7 +1710,7 @@
                                 <span style="color:#d4c9b0; font-size:11px; line-height:1.6;">${item.desc}</span>
                              </div>`;
                 });
-                historyContainer.innerHTML = html;
+                hc.innerHTML = html;
             }
 
         })();
