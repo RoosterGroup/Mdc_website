@@ -693,7 +693,350 @@
             color: #b8d98a;
         }
 
+        /* ========== 相册（已合并进本站，仅在点开相册标签时才加载图片） ========== */
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4d351e;
+        }
+        .gallery-header h3 {
+            color: #e6d7b8;
+            font-size: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        .upload-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            padding: 10px 22px;
+            background: #6d8a4a;
+            border: none;
+            border-radius: 12px;
+            color: #f5f0e1;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            box-shadow: 0 4px 0 #3d5a2a, 0 3px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid #8daa6a;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #3d5a2a, 0 6px 20px rgba(0, 0, 0, 0.5);
+            background: #7d9a5a;
+        }
+        .upload-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3d5a2a;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 6px 0 10px 0;
+        }
+        .gallery-item {
+            background: rgba(30, 20, 12, 0.7);
+            border: 4px solid #4d351e;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 2px #2d1f14, 0 6px 16px rgba(0, 0, 0, 0.4);
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            border-color: #6d4c2a;
+        }
+        .gallery-item img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            background: #1a120e;
+            border-bottom: 3px solid #3d2b1a;
+        }
+        .gallery-meta {
+            padding: 12px 14px 14px 14px;
+            color: #d4c9b0;
+            font-size: 9px;
+            font-family: 'Press Start 2P', monospace;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            background: rgba(10, 8, 6, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .gallery-meta .meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px dashed rgba(90, 70, 50, 0.3);
+            padding-bottom: 2px;
+        }
+        .gallery-meta .meta-row:last-child { border-bottom: none; }
+        .gallery-meta .label { color: #a0907a; font-size: 8px; letter-spacing: 0.5px; }
+        .gallery-meta .value { color: #e6d7b8; font-size: 9px; text-align: right; word-break: break-word; }
+        .gallery-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #7a6a5a;
+            font-size: 14px;
+            background: rgba(30, 20, 12, 0.4);
+            border-radius: 16px;
+            border: 3px dashed #4d351e;
+        }
+        .gallery-empty .big-icon { font-size: 48px; display: block; margin-bottom: 16px; opacity: 0.6; }
+
+        /* ----- 在线玩家趋势按钮 & 弹窗 ----- */
+        .chart-btn {
+            display: block;
+            width: 100%;
+            margin-top: 14px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 12px 14px;
+            background: #3d6b8a;
+            color: #f5f0e1;
+            border: 1px solid #5a8aaa;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #1f405a, 0 3px 12px rgba(0, 0, 0, 0.4);
+            transition: all 0.15s;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .chart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #1f405a, 0 6px 20px rgba(0, 0, 0, 0.5);
+            background: #4d7b9a;
+        }
+        .chart-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1f405a;
+        }
+        .modal-iframe {
+            width: 100%;
+            height: 70vh;
+            min-height: 420px;
+            border: none;
+            display: block;
+            background: #1a120e;
+        }
+
+        /* ========== 规则册（每册一个项目，点击放大展示） ========== */
+        .rule-books {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            padding: 4px 0 6px 0;
+        }
+        .rule-book {
+            flex: 1 1 320px;
+            min-width: 250px;
+            background: rgba(30, 20, 12, 0.65);
+            border: 4px solid #6d4c2a;
+            border-radius: 16px;
+            padding: 20px 22px 16px 22px;
+            box-shadow: inset 0 0 0 2px #3d2b1a, 0 6px 20px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+            text-align: left;
+        }
+        .rule-book:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: #8b6b44;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+        }
+        .rule-book:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+        .rule-book .book-icon { font-size: 32px; display: block; margin-bottom: 12px; }
+        .rule-book .book-title {
+            color: #e6d7b8;
+            font-size: 13px;
+            line-height: 1.6;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        .rule-book .book-desc {
+            color: #b8a88a;
+            font-size: 10px;
+            line-height: 1.9;
+            margin-top: 10px;
+        }
+        .rule-book .book-meta {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 2px solid #4d351e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9px;
+            color: #8a7a6a;
+        }
+        .rule-book .book-open { color: #b8d98a; }
+
+        /* ========== 模态框（规则详情 / 相册大图） ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 6, 0.9);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 30px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(30, 20, 12, 0.95);
+            border: 6px solid #6d4c2a;
+            border-radius: 20px;
+            box-shadow: 0 0 0 2px #3d2b1a, 0 30px 80px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            position: relative;
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            animation: modalZoom 0.22s ease;
+        }
+        @keyframes modalZoom {
+            0% { opacity: 0; transform: scale(0.86); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 24px;
+            color: #d4c9b0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            z-index: 10;
+            font-family: 'Press Start 2P', monospace;
+            transition: transform 0.2s;
+        }
+        .modal-close:hover { transform: scale(1.2); }
+        .modal-head {
+            padding: 18px 28px 14px 28px;
+            border-bottom: 4px solid #4d351e;
+            background: rgba(20, 15, 10, 0.55);
+        }
+        .modal-head h3 {
+            color: #e6d7b8;
+            font-size: 14px;
+            line-height: 1.7;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        .modal-head .head-sub {
+            margin-top: 8px;
+            font-size: 9px;
+            color: #8a7a6a;
+            line-height: 1.8;
+        }
+        .modal-body {
+            overflow-y: auto;
+            padding: 20px 28px 26px 28px;
+        }
+        .modal-body::-webkit-scrollbar { width: 10px; background: #2d1f14; }
+        .modal-body::-webkit-scrollbar-thumb { background: #6d4c2a; border: 2px solid #3d2b1a; border-radius: 6px; }
+        .rule-doc p {
+            font-size: 11px;
+            line-height: 2;
+            color: #d4c9b0;
+            margin-bottom: 8px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .rule-doc h4 {
+            color: #b8d98a;
+            font-size: 12px;
+            margin: 16px 0 8px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #4d351e;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .rule-doc h4:first-child { margin-top: 0; }
+        .rule-doc ul { list-style: none; padding-left: 6px; margin: 4px 0 10px 0; }
+        .rule-doc ul li {
+            position: relative;
+            padding: 2px 0 2px 20px;
+            font-size: 11px;
+            line-height: 1.9;
+            color: #d4c9b0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .rule-doc ul li::before { content: "▸"; position: absolute; left: 0; color: #7cb84a; }
+        .rule-doc .num { color: #e6d7b8; }
+        .rule-doc .warn {
+            color: #f0c98a;
+            background: rgba(90, 60, 25, 0.35);
+            border-left: 4px solid #c9a83a;
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: block;
+        }
+        .rule-doc .note { color: #b8a88a; }
+        .rule-doc .foot {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 2px solid #4d351e;
+            font-size: 10px;
+            color: #8a7a6a;
+            line-height: 1.9;
+        }
+        .modal-img {
+            width: 100%;
+            object-fit: contain;
+            max-height: 58vh;
+            background: #1a120e;
+            border-bottom: 4px solid #4d351e;
+        }
+        .modal-meta {
+            padding: 18px 26px 22px 26px;
+            background: rgba(20, 15, 10, 0.6);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 24px;
+            font-size: 10px;
+            color: #d4c9b0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .modal-meta .full-row { grid-column: 1 / -1; }
+        .modal-meta .label { color: #a0907a; font-size: 9px; }
+        .modal-meta .value { color: #e6d7b8; word-break: break-word; }
+
         /* ========== 响应式 ========== */
+        @media (max-width: 900px) {
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+            .modal-meta { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 550px) {
+            .modal-overlay { padding: 14px; }
+            .modal-content { border-width: 4px; max-height: 94vh; }
+            .modal-body { padding: 14px 16px 20px 16px; }
+            .rule-doc p, .rule-doc ul li { font-size: 10px; line-height: 1.9; }
+            .rule-book { flex: 1 1 100%; }
+        }
         @media (max-width: 900px) {
             .home-grid {
                 flex-direction: column;
@@ -811,11 +1154,11 @@
         <!-- ====== 标签页导航 ====== -->
         <div class="tabs" role="tablist">
             <button class="tab-btn active" data-tab="home" role="tab">🏠 主页</button>
+            <button class="tab-btn" data-tab="rules" role="tab">📋 服务器规则</button>
             <button class="tab-btn" data-tab="network" role="tab">🌐 网络</button>
             <button class="tab-btn" data-tab="gallery" role="tab">🖼️ 相册</button>
             <button class="tab-btn" data-tab="play" role="tab">🎮 玩法</button>
             <button class="tab-btn" data-tab="history" role="tab">📜 服务器历史</button>
-            <button class="tab-btn" data-tab="rules" role="tab">📋 服务器规则</button>
             <button class="tab-btn" data-tab="links" role="tab">🔗 相关链接</button>
         </div>
 
@@ -887,8 +1230,23 @@
                         <div class="player-list" id="playerList">
                             <div class="player-loading">⏳ 正在获取玩家列表...</div>
                         </div>
+                        <button class="chart-btn" id="chartBtn" type="button">📈 在线玩家趋势</button>
                     </div>
 
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ====== 标签页：服务器规则（每册一个项目，点击放大展示） ====== -->
+        <div id="rules" class="tab-content" role="tabpanel">
+            <div class="page-section rules-section">
+                <div class="feature-card" style="border-color:#6d4c2a;">
+                    <h3>📋 服务器规则</h3>
+                    <p style="font-size:11px; color:#b8a88a; margin-bottom:14px; line-height:1.9;">本服规则分为多册，点击下方任意一册即可放大阅读全文。进服即视为同意遵守以下全部规则。</p>
+                    <div class="rule-books" id="ruleBooks">
+                        <!-- 由 JavaScript 渲染 -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -931,9 +1289,22 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- ====== 标签页：相册（跳转到 gallery.html） ====== -->
+        <!-- ====== 标签页：相册（已合并进本站，图片仅在点开本标签时才加载） ====== -->
         <div id="gallery" class="tab-content" role="tabpanel">
-            <p style="color:#d4c9b0; text-align:center; padding:40px;">正在跳转至相册...</p>
+            <div class="gallery-header">
+                <h3>📸 服务器相册</h3>
+                <a href="https://v.wjx.cn/vm/Q5FX50S.aspx#" class="upload-btn" target="_blank">
+                    <span>⬆</span> 上传照片
+                </a>
+            </div>
+            <p style="font-size:10px; color:#8a7a6a; margin-bottom:12px; line-height:1.8;">💡 为加快页面加载，相册图片仅在您点开本标签页时才开始加载。</p>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- 由 JavaScript 在点开相册标签时动态渲染 -->
+                <div class="gallery-empty">
+                    <span class="big-icon">🖼️</span>
+                    点击上方「🖼️ 相册」即可加载照片
+                </div>
+            </div>
         </div>
 
         <!-- ============================================================ -->
@@ -1002,28 +1373,6 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- ====== 标签页：服务器规则 ====== -->
-        <div id="rules" class="tab-content" role="tabpanel">
-            <div class="page-section rules-section">
-                <div class="feature-card" style="border-color:#6d4c2a;">
-                    <h3>📋 服务器规则</h3>
-                    <p style="font-size:12px; color:#d4c9b0; margin-bottom:12px;">服务器宗旨：我们致力于打造一个专注、专业、友好的建筑服务器。请所有玩家遵守以下规则，共同维护优质的创作环境。</p>
-                    <div class="rule-chapter">
-                        <p><strong>第一章：建筑创作与版权</strong></p>
-                        <p><strong>1. 核心原则：禁止破坏与抄袭。</strong>严禁任何形式的恶意破坏、修改、污染他人建筑作品（包括地形、结构、内饰、红石装置等）。严禁完全照搬或高度模仿其他玩家的原创建筑设计并声称原创。受灵感启发进行创作是允许的，但需保持显著差异并可在交流时注明灵感来源。</p>
-                        <p><strong>2. 合理的资源获取。</strong>可以通过远离城市的无人区域挖掘或使用指令 <span class="cmd">/shop</span> 打开商店购买物品。严禁在他人建筑范围或服务器设施内随意挖掘地形、砍伐森林以获取原材料，破坏自然景观。</p>
-                        <p><strong>3. 良好的交流礼仪。</strong>在聊天栏或讨论群中，请保持专业与友善，专注于建筑技巧、红石机械、设计理念的交流。欢迎提出建设性批评，但禁止对他人作品进行人身攻击或恶意贬低。</p>
-                        <p><strong>4. 建筑审核与保护。</strong>玩家可向管理员申请对自己的竣工作品进行领地申请，使其免于被他人意外修改。申请成为正式建筑师或将自己的建筑纳入服务器官方展览，需提交作品集（截图/存档）供管理员审核。</p>
-                        <p><strong>5. 违规处理。</strong>服务器每周定期备份。对于恶意破坏行为，将采取 <strong>【100%回滚操作】</strong>，视情况没收物品、暂时或永久封禁等严厉处罚。对于抄袭纠纷，管理员将进行调查与裁定。首次违反可能面临警告、要求修改作品或取消参赛/建筑师认证的处理。</p>
-                        <p><strong>6. 举报与申诉。</strong>发现违规行为，请立即截图（含坐标与游戏ID）或录制视频，并向官网 <strong>相关链接-反馈/举报</strong> 或 QQ群群主 举报。</p>
-                    </div>
-                    <p style="margin-top:16px; font-size:12px; color:#b8a88a; border-top:2px solid #4d351e; padding-top:12px;">结语：在 Modern Craft，每一份创意都值得尊重，每一处风景都需共同守护。让我们用方块构建现代美学，用规则奠基创作乐园。</p>
-                    <p style="margin-top:8px; font-size:12px; color:#7cb84a;">祝您在 Modern Craft 建造愉快，灵感永驻！</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ============================================================ -->
         <!-- ====== 标签页：相关链接 ====== -->
         <div id="links" class="tab-content" role="tabpanel">
             <div class="page-section">
@@ -1047,6 +1396,40 @@
 
     </div>
 
+    <!-- ===== 规则详情模态框（点击规则册放大展示） ===== -->
+    <div class="modal-overlay" id="ruleModal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <button class="modal-close" id="ruleModalClose" title="关闭">✕</button>
+            <div class="modal-head">
+                <h3 id="ruleModalTitle">规则</h3>
+                <div class="head-sub" id="ruleModalSub"></div>
+            </div>
+            <div class="modal-body">
+                <div class="rule-doc" id="ruleModalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 在线玩家趋势（iframe 图表）弹窗 ===== -->
+    <div class="modal-overlay" id="chartModal" role="dialog" aria-modal="true">
+        <div class="modal-content" style="max-width:1000px;">
+            <button class="modal-close" id="chartModalClose" title="关闭">✕</button>
+            <div class="modal-head">
+                <h3>📈 在线玩家趋势</h3>
+            </div>
+            <iframe class="modal-iframe" id="chartFrame" src="" title="在线玩家趋势图表" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <!-- ===== 相册大图模态框 ===== -->
+    <div class="modal-overlay" id="photoModal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <button class="modal-close" id="photoModalClose" title="关闭">✕</button>
+            <img class="modal-img" id="photoModalImg" src="" alt="大图" />
+            <div class="modal-meta" id="photoModalMeta"></div>
+        </div>
+    </div>
+
     <!-- ============================================================ -->
     <!-- ====== JavaScript ====== -->
     <script>
@@ -1057,7 +1440,7 @@
             // 0. 公共配置
             // ================================================================
             const MOTD_API = 'https://motd.minebbs.com/api/status?ip=';
-            const MAIN_HOST = 'mdc-mc.cc.cd';
+            const MAIN_HOST = 'rstg.im';
 
             // ================================================================
             // 1. 标签页切换（包括相册跳转）
@@ -1082,14 +1465,26 @@
                     Object.keys(tabContents).forEach(key => {
                         tabContents[key].classList.toggle('active', key === hash);
                     });
+                    afterTabActivate(hash);
                     return true;
                 }
                 return false;
             }
 
-            if (!activateTabFromHash()) {
-                document.querySelector('.tab-btn[data-tab="home"]').classList.add('active');
-                tabContents.home.classList.add('active');
+            // 切换标签后的按需初始化（相册图片仅在此刻才开始加载）
+            function afterTabActivate(tabId) {
+                // 切换到网络页时刷新数据
+                if (tabId === 'network') {
+                    initNetworkPage();
+                }
+                // 切换到主页时立即刷新一次
+                if (tabId === 'home') {
+                    fetchHomeData();
+                }
+                // 切换到相册时才加载图片
+                if (tabId === 'gallery') {
+                    initGallery();
+                }
             }
 
             window.addEventListener('hashchange', function() {
@@ -1100,10 +1495,6 @@
                 btn.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');
                     if (!tabId) return;
-                    if (tabId === 'gallery') {
-                        window.location.href = 'gallery.html';
-                        return;
-                    }
                     tabBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     Object.keys(tabContents).forEach(key => {
@@ -1112,14 +1503,7 @@
                     if (history.pushState) {
                         history.pushState(null, '', '#' + tabId);
                     }
-                    // 切换到网络页时刷新数据
-                    if (tabId === 'network') {
-                        initNetworkPage();
-                    }
-                    // 切换到主页时立即刷新一次
-                    if (tabId === 'home') {
-                        fetchHomeData();
-                    }
+                    afterTabActivate(tabId);
                 });
             });
 
@@ -1334,15 +1718,26 @@
                     if (data.players.max !== undefined) {
                         result.playersMax = Number(data.players.max) || 1440;
                     }
+                    // 注意：本 API 的 sample 是用逗号分隔的一整串名字
                     if (data.players.sample) {
+                        const raw = [];
                         if (typeof data.players.sample === 'string') {
-                            result.playerList = [data.players.sample];
+                            raw.push(data.players.sample);
                         } else if (Array.isArray(data.players.sample)) {
-                            result.playerList = data.players.sample.map(p => {
-                                if (typeof p === 'string') return p;
-                                return p.name || p.displayName || JSON.stringify(p);
+                            data.players.sample.forEach(p => {
+                                if (typeof p === 'string') raw.push(p);
+                                else raw.push(p.name || p.displayName || '');
                             });
                         }
+                        result.playerList = [];
+                        raw.forEach(str => {
+                            String(str).split(/[,，、;；]/).forEach(n => {
+                                const name = n.trim();
+                                if (name && result.playerList.indexOf(name) === -1) {
+                                    result.playerList.push(name);
+                                }
+                            });
+                        });
                     }
                 }
 
@@ -1456,16 +1851,9 @@
 
             // Java版线路
             const lines = [
-                { name: '主线路', host: 'mdc-mc.cc.cd' },
-                { name: '备用1', host: 'a.mdc-mc.cc.cd' },
-                { name: '备用2', host: 'b.mdc-mc.cc.cd' },
-                { name: '备用3', host: 'c.mdc-mc.cc.cd' },
-                { name: '备用4', host: 'd.mdc-mc.cc.cd' },
-                { name: '备用5', host: 'e.mdc-mc.cc.cd' },
-                { name: '阿里云广州 (晚上可能掉线)', host: 'gz.mdc-mc.cc.cd' },
-                { name: '湖北襄阳', host: 'xy.mdc-mc.cc.cd' },
-                { name: '新加坡', host: 'sg.mdc-mc.cc.cd' },
-                { name: '香港', host: 'hk.mdc-mc.cc.cd' }
+                { name: '主线路', host: 'rstg.im' },
+                { name: '备用线路', host: 'mdc-mc.cc.cd' },
+                { name: '阿里云广州 (晚上可能掉线)', host: 'gz.mdc-mc.cc.cd' }
             ];
 
             // 基岩版线路
@@ -1661,11 +2049,7 @@
                 fetchBedrockData();
             }
 
-            // 页面加载时如果 hash 是 network 也初始化
-            const initialHash = window.location.hash.replace('#', '');
-            if (initialHash === 'network') {
-                initNetworkPage();
-            }
+            // 页面加载时的初始标签页在脚本最末尾统一处理（见文件末尾）
 
             // ================================================================
             // 7. 服务器历史
@@ -1711,6 +2095,400 @@
                              </div>`;
                 });
                 hc.innerHTML = html;
+            }
+
+            // ================================================================
+            // 8. 服务器规则：一册一个项目，点击放大展示
+            // ================================================================
+            const ruleBooks = [
+                {
+                    icon: '📗',
+                    title: '第一册 · 摩登时代服务器规定',
+                    desc: '服务器宗旨与创作规范：建筑创作与版权、合理资源获取、交流礼仪、建筑审核与保护、违规处理、举报与申诉。',
+                    updated: '摩登时代服务器 · 基础规定',
+                    html: `
+                        <p>服务器宗旨：我们致力于打造一个专注、专业、友好的建筑服务器。请所有玩家遵守以下规则，共同维护优质的创作环境。</p>
+
+                        <h4>第一章：建筑创作与版权</h4>
+                        <p><span class="num">1. 核心原则：禁止破坏与抄袭。</span>严禁任何形式的恶意破坏、修改、污染他人建筑作品（包括地形、结构、内饰、红石装置等）。严禁完全照搬或高度模仿其他玩家的原创建筑设计并声称原创。受灵感启发进行创作是允许的，但需保持显著差异并可在交流时注明灵感来源。</p>
+                        <p><span class="num">2. 合理的资源获取。</span>可以通过远离城市的无人区域挖掘或使用指令 <span class="cmd">/shop</span> 打开商店购买物品。严禁在他人建筑范围或服务器设施内随意挖掘地形、砍伐森林以获取原材料，破坏自然景观。</p>
+                        <p><span class="num">3. 良好的交流礼仪。</span>在聊天栏或讨论群中，请保持专业与友善，专注于建筑技巧、红石机械、设计理念的交流。欢迎提出建设性批评，但禁止对他人作品进行人身攻击或恶意贬低。</p>
+                        <p><span class="num">4. 建筑审核与保护。</span>玩家可向管理员申请对自己的竣工作品进行领地申请，使其免于被他人意外修改。申请成为正式建筑师或将自己的建筑纳入服务器官方展览，需提交作品集（截图/存档）供管理员审核。</p>
+                        <p><span class="num">5. 违规处理。</span>服务器每周定期备份。对于恶意破坏行为，将采取 <span class="num">【100%回滚操作】</span>，视情况没收物品、暂时或永久封禁等严厉处罚。对于抄袭纠纷，管理员将进行调查与裁定。首次违反可能面临警告、要求修改作品或取消参赛/建筑师认证的处理。</p>
+                        <p><span class="num">6. 举报与申诉。</span>发现违规行为，请立即截图（含坐标与游戏ID）或录制视频，并向官网 <span class="num">相关链接-反馈/举报</span> 或 QQ群群主 举报。</p>
+
+                        <p class="foot">结语：在 Modern Craft，每一份创意都值得尊重，每一处风景都需共同守护。让我们用方块构建现代美学，用规则奠基创作乐园。<br>祝您在 Modern Craft 建造愉快，灵感永驻！</p>
+                    `
+                },
+                {
+                    icon: '📕',
+                    title: '第二册 · 摩登时代处罚规定',
+                    desc: '全体玩家必读：破坏偷窃、卡服崩服、恶意 PvP、辱骂引战、广告引流、账号外借、OP 与管理员、恶意举报，以及处罚执行与申诉渠道。',
+                    updated: '修订日期：2026-8-14 11:52',
+                    html: `
+                        <p class="warn">请玩家认真阅读！因不知道而违规的概不负责。</p>
+                        <p><span class="num">本规则生效时间：</span>发出立刻生效（仅处理举报事件）。15日15时启动自动检查违规。</p>
+                        <p>本规定旨在维护公平的游戏环境，所有玩家进服即视为同意遵守以下规则。如发现请向管理员举报。</p>
+                        <p class="warn">警告：如果有处罚记录的玩家申请管理员将降低优先级。</p>
+
+                        <h4>1. 恶意修改或偷窃</h4>
+                        <p>未经许可破坏他人建筑、偷取物品、未经允许改造他人建筑、杀害他人宠物、恶意 PVP，首次进行提醒并回滚，再次 3 天封禁，3 次及以上违犯每次增加 1 周。如果破坏的是红石机器双倍处罚；破坏大型难以修复的红石机器 3 倍处罚。屡教不改者永久封禁。</p>
+
+                        <h4>2. 卡服 / 崩服</h4>
+                        <p>建造卡服机、TPS/MSPT 攻击机、无意义大规模堆叠红石机器（或赤石科技）等影响服务器性能的行为，一经举报首次 1 天封禁，再次 7 天封禁。如果是恶意崩服，一经发现将采取 100% 区块回滚操作并永久封禁账号及 IP。</p>
+
+                        <h4>3. 恶意 PvP</h4>
+                        <p class="note">注：本项为被举报再执行</p>
+                        <p>本服不是专门的 PvP 服务器，PvP 均需双方同意。如未经他人允许恶意 PvP，导致他人反感、装备损坏等列为恶意 PvP，一经举报核实将立即处理。如果恶意 PvP 致他人反感、无法正常游玩的，第一次封禁 1 天，再次封禁 3 天。如果损坏他人盔甲装备的，按稀有度翻倍处罚（铁及以下为翻 1.5 倍按盔甲稀有度翻倍，最高 3 倍）。</p>
+
+                        <h4>3. 辱骂与引战</h4>
+                        <p>服务器聊天或群组中出现脏话、人身攻击、霸凌、煽动争端，首次禁言 24 小时，再次 7 天禁言，三次以上永久禁言。</p>
+
+                        <h4>4. 广告与引流</h4>
+                        <ul>
+                            <li>在服务器宣传其他服务器、发布无关广告，封禁 1 周并禁言 2 周，再次永久封禁。</li>
+                            <li>在群内发布广告，首次禁言 3 天，再次禁言 1 周。</li>
+                            <li>在群内宣传其他服务器的，未撤回被发现的进行永久禁言且不支持申诉。</li>
+                        </ul>
+
+                        <h4>5. 账号外借</h4>
+                        <p>账号外借期间产生的一切违规，由账号所有者承担全部责任；因外借导致的损失不予回档补偿。</p>
+                        <p><span class="num">特殊说明 · 红石与生电：</span>允许建造刷怪塔、农场、红石机器，但须配备多余物品销毁装置；无人使用时须关闭机器；建造超大型堆叠层数的刷怪塔需提前向管理员报备。</p>
+
+                        <h4>6. OP 与管理员</h4>
+                        <p>滥用职权、私吞玩家物品、使用创造模式、修改服务器核心区域（如主城）未经报备、泄露后台信息者，一经核实立即撤销权限并永久封禁，情节严重的封禁 IP。</p>
+
+                        <h4>7. 恶意举报</h4>
+                        <p>举报渠道是用于维持服务器和平的方式，不是获利方式。如发现有人恶意举报他人（如 PvP 经双方允许却恶意举报的）第一次发现进行 5 天封禁、10 天禁止举报，二次及以上的进行 14 天封禁、1 个月禁止举报，3 次终身禁止举报并封禁 1 个月。</p>
+
+                        <h4>〖处罚执行〗</h4>
+                        <p>一经发现且有证据核实的将立即处理。</p>
+                        <ul>
+                            <li><span class="num">轻度违规：</span>管理员口头警告并记录在案</li>
+                            <li><span class="num">中度违规：</span>临时封禁（0.5–30 天不等）</li>
+                            <li><span class="num">重度违规：</span>永久封禁及永久封禁 IP</li>
+                        </ul>
+
+                        <h4>〖申诉渠道〗</h4>
+                        <p>玩家可在 QQ 群向管理员提出申诉，须提供：</p>
+                        <ul>
+                            <li>本人游戏 ID</li>
+                            <li>违规事件的时间与经过</li>
+                            <li>相关截图或视频证据</li>
+                        </ul>
+
+                        <p class="foot">修订日期：2026-8-14 11:52</p>
+                    `
+                },
+                {
+                    icon: '📘',
+                    title: '第三册 · 管理员审核规定',
+                    desc: '服务器管理与群管理双线分离：权限划分、审核与录用标准、行为规范与红线、违规与降级机制。',
+                    updated: '最终解释权归管理组所有',
+                    html: `
+                        <p>为维持服务器长期稳定的良好环境，管理员团队实行“服务器管理”与“群管理”双线分离、严格审核制度。所有管理员必须严格遵守以下规范：</p>
+
+                        <h4>一、权限划分</h4>
+                        <p><span class="num">〖服务器管理员〗</span></p>
+                        <ul>
+                            <li><span class="num">核心职责：</span>负责维护游戏内秩序。</li>
+                            <li><span class="num">审核规则：</span>服务器内累计在线时长累计 ≥ 2 天，且挖掘及放置方块数 ≥ 9600 且总数 ≥ 20480，如果有则审核的规定翻[违规次数 × 2]倍。</li>
+                            <li><span class="num">权限限制：</span>严禁滥用 /gamemode、/give 等指令谋取个人游戏便利；/gamemode 仅能用于查询 CoreProtect 及回滚处理，且需要先报备；非维护时间不得使用创造模式。</li>
+                        </ul>
+                        <p><span class="num">〖群管理员〗</span></p>
+                        <ul>
+                            <li><span class="num">核心职责：</span>审核通过立即获得群内管理员权限。负责 QQ 官方群的日常秩序、玩家答疑、入群审核等。</li>
+                            <li><span class="num">审核规则：</span>从未违反群规且从未被禁言。</li>
+                            <li><span class="num">权限限制：</span>不得在群内干扰正常聊天秩序、乱改群聊设置等。</li>
+                        </ul>
+
+                        <h4>二、审核与录用标准</h4>
+                        <p><span class="num">能力评估：</span></p>
+                        <ul>
+                            <li>服务器管理员：需具备熟悉插件特性，通过笔试考核。</li>
+                            <li>群管理员：具备良好的沟通耐心，高度了解服务器，无不良社交记录，能妥善处理玩家纠纷。</li>
+                        </ul>
+                        <p><span class="num">试用期制度：</span>新晋管理员统一设立 14 天试用期。试用期内仅有基础管理权限，期间若出现一次重大失误或态度问题，直接撤销资格。</p>
+
+                        <h4>三、行为规范与红线</h4>
+                        <p class="warn">严禁利用管理权限窥探其他玩家隐私（如私密坐标、背包内容），严禁私自篡改他人数据及建筑等。</p>
+
+                        <h4>四、违规与降级机制</h4>
+                        <ul>
+                            <li><span class="num">一级违规（警告处分）：</span>在群内或游戏内与玩家发生言语冲突。</li>
+                            <li><span class="num">二级违规（降级 / 撤职）：</span>滥用权限刷取物品、私自给亲友开绿灯、泄露服务器敏感信息。</li>
+                            <li><span class="num">三级违规（永久封禁）：</span>恶意破坏服务器存档、利用漏洞牟利、向玩家索取财物或物品。一经发现，永久封禁帐号及 IP，并全服公示。</li>
+                        </ul>
+
+                        <p class="foot">最终解释权归《摩登时代服务器》管理组所有。</p>
+                    `
+                }
+            ];
+
+            const ruleBooksEl = document.getElementById('ruleBooks');
+            const ruleModal = document.getElementById('ruleModal');
+            const ruleModalTitle = document.getElementById('ruleModalTitle');
+            const ruleModalSub = document.getElementById('ruleModalSub');
+            const ruleModalBody = document.getElementById('ruleModalBody');
+
+            function renderRuleBooks() {
+                if (!ruleBooksEl) return;
+                ruleBooksEl.innerHTML = '';
+                ruleBooks.forEach((book, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'rule-book';
+                    div.setAttribute('role', 'button');
+                    div.setAttribute('tabindex', '0');
+                    div.innerHTML =
+                        '<span class="book-icon">' + book.icon + '</span>' +
+                        '<div class="book-title">' + book.title + '</div>' +
+                        '<div class="book-desc">' + book.desc + '</div>' +
+                        '<div class="book-meta"><span>' + book.updated + '</span><span class="book-open">点击放大 ▸</span></div>';
+                    div.addEventListener('click', function() { openRuleModal(index); });
+                    div.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            openRuleModal(index);
+                        }
+                    });
+                    ruleBooksEl.appendChild(div);
+                });
+            }
+
+            function openRuleModal(index) {
+                const book = ruleBooks[index];
+                if (!book) return;
+                ruleModalTitle.textContent = book.icon + ' ' + book.title;
+                ruleModalSub.textContent = book.updated;
+                ruleModalBody.innerHTML = book.html;
+                ruleModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeRuleModal() {
+                ruleModal.classList.remove('active');
+                if (!photoModal.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            document.getElementById('ruleModalClose').addEventListener('click', closeRuleModal);
+            ruleModal.addEventListener('click', function(e) {
+                if (e.target === ruleModal) closeRuleModal();
+            });
+
+            renderRuleBooks();
+
+            // ================================================================
+            // 9. 相册：已合并进本站，仅在点开相册标签时才加载图片
+            // ================================================================
+            const photoList = [
+                {
+                    src: 'gallery/1_4_D812FF94FCB374137487976B7298AAC5.png',
+                    player: 'wwwqwq',
+                    description: '我建的跨海大桥,但是我开不了光影',
+                    coordinates: '-584 62 1214',
+                    date: '2026-8-9'
+                },
+                {
+                    src: 'gallery/919F4C24A7BA396A23140BFFE6F8D2BD.png',
+                    player: '__Arc_Light__',
+                    description: '雪山日落',
+                    coordinates: '15k,400,6k附近',
+                    date: '2026-7-25'
+                },
+                {
+                    src: 'gallery/F18AA18793C194C7B4FA24106E254941.png',
+                    player: '__Arc_Light__',
+                    description: '城堡（+BSL）',
+                    coordinates: '400，200，400附近',
+                    date: '2026-7-25'
+                },
+                {
+                    src: 'gallery/2026-02-16_18.31.35.png',
+                    player: 'GJ64_Minecraft',
+                    description: '森林（+光影）',
+                    coordinates: '-14,70,370',
+                    date: '2026-2-16'
+                },
+                {
+                    src: 'gallery/55174a168eb3bdf61bc1ac1ee6fa3fd6a54111d5.png',
+                    player: 'GJ64_Minecraft',
+                    description: 'Villages and cities',
+                    coordinates: 'Around 0,0',
+                    date: '2025-10-26'
+                },
+                {
+                    src: 'gallery/414a-432ss251019.png',
+                    player: 'GJ64_Minecraft',
+                    description: '日落（背景图）',
+                    coordinates: '414,-432',
+                    date: '2025-10-19'
+                },
+                {
+                    src: 'gallery/405a-312 sr251019.png',
+                    player: 'GJ64_Minecraft',
+                    description: '日出 (SEUS PTGI HRR GFME)',
+                    coordinates: '405,-312',
+                    date: '2025-10-19'
+                },
+                {
+                    src: 'gallery/2025-08-15_21.13.39.png',
+                    player: 'GJ64_Minecraft',
+                    description: '史诗地形 · 雪山',
+                    coordinates: '15148.780,364.87500,6744.953',
+                    date: '2025-08-15'
+                },
+                {
+                    src: 'gallery/我的世界城市 1_5_RoosterGroup_来自小红书网页版.jpg',
+                    player: 'GJ64_Minecraft',
+                    description: '主城',
+                    coordinates: '70,-330附近',
+                    date: '2023-10-28'
+                },
+                {
+                    src: 'gallery/ldm231024.bmp',
+                    player: 'GJ（服主旧号）',
+                    description: '落地马（小红书视频截图）',
+                    coordinates: '87,80,-287附近',
+                    date: '2023-10-24'
+                },
+                {
+                    src: 'gallery/n-15340231007.png',
+                    player: 'GJ（服主旧号）',
+                    description: '最早的截图 夜景',
+                    coordinates: '-15,63,340附近',
+                    date: '2023-10-07'
+                }
+            ];
+
+            const galleryGrid = document.getElementById('galleryGrid');
+            const photoModal = document.getElementById('photoModal');
+            const photoModalImg = document.getElementById('photoModalImg');
+            const photoModalMeta = document.getElementById('photoModalMeta');
+            let galleryLoaded = false;
+
+            function renderGallery() {
+                if (!galleryGrid) return;
+                galleryGrid.innerHTML = '';
+
+                if (!photoList || photoList.length === 0) {
+                    galleryGrid.innerHTML =
+                        '<div class="gallery-empty"><span class="big-icon">📂</span>相册暂无照片</div>';
+                    return;
+                }
+
+                photoList.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'gallery-item';
+                    div.dataset.index = index;
+
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    img.alt = item.description || 'Modern Craft 截图';
+                    img.loading = 'lazy';
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const placeholder = document.createElement('div');
+                        placeholder.style.cssText = 'aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:#1a120e;color:#d4c9b0;font-size:11px;border-bottom:3px solid #3d2b1a;padding:10px;text-align:center;line-height:1.6;';
+                        placeholder.innerHTML = '❌ 图片加载失败<br>请检查网络';
+                        this.parentNode.insertBefore(placeholder, this);
+                    };
+
+                    const meta = document.createElement('div');
+                    meta.className = 'gallery-meta';
+                    meta.innerHTML =
+                        '<div class="meta-row"><span class="label">👤 玩家</span><span class="value">' + (item.player || '未知') + '</span></div>' +
+                        '<div class="meta-row"><span class="label">📝 描述</span><span class="value">' + (item.description || '无') + '</span></div>' +
+                        '<div class="meta-row"><span class="label">📍 坐标</span><span class="value">' + (item.coordinates || '未记录') + '</span></div>' +
+                        '<div class="meta-row"><span class="label">📅 拍摄日期</span><span class="value">' + (item.date || '未知') + '</span></div>';
+
+                    div.appendChild(img);
+                    div.appendChild(meta);
+                    div.addEventListener('click', function() { openPhotoModal(index); });
+                    galleryGrid.appendChild(div);
+                });
+            }
+
+            // 仅在切换到相册标签页时才真正创建 <img> 开始加载
+            function initGallery() {
+                if (galleryLoaded) return;
+                galleryLoaded = true;
+                renderGallery();
+            }
+
+            function openPhotoModal(index) {
+                const item = photoList[index];
+                if (!item) return;
+                photoModalImg.src = item.src;
+                photoModalImg.alt = item.description || '大图';
+                photoModalMeta.innerHTML =
+                    '<div class="full-row"><span class="label">👤 玩家</span> <span class="value">' + (item.player || '未知') + '</span></div>' +
+                    '<div class="full-row"><span class="label">📝 描述</span> <span class="value">' + (item.description || '无') + '</span></div>' +
+                    '<div class="full-row"><span class="label">📍 坐标</span> <span class="value">' + (item.coordinates || '未记录') + '</span></div>' +
+                    '<div class="full-row"><span class="label">📅 拍摄日期</span> <span class="value">' + (item.date || '未知') + '</span></div>';
+                photoModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closePhotoModal() {
+                photoModal.classList.remove('active');
+                if (!ruleModal.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            document.getElementById('photoModalClose').addEventListener('click', closePhotoModal);
+            photoModal.addEventListener('click', function(e) {
+                if (e.target === photoModal) closePhotoModal();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeRuleModal();
+                    closePhotoModal();
+                    closeChartModal();
+                }
+            });
+
+            // ================================================================
+            // 10. 在线玩家趋势（iframe 图表弹窗）
+            // ================================================================
+            const CHART_URL = 'http://api.mdc.rstg.im/';
+            const chartBtn = document.getElementById('chartBtn');
+            const chartModal = document.getElementById('chartModal');
+            const chartFrame = document.getElementById('chartFrame');
+
+            function openChartModal() {
+                // 只在首次打开时加载 iframe，避免拖慢首页
+                if (!chartFrame.getAttribute('src')) {
+                    chartFrame.setAttribute('src', CHART_URL);
+                }
+                chartModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeChartModal() {
+                chartModal.classList.remove('active');
+                if (!ruleModal.classList.contains('active') && !photoModal.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            if (chartBtn) {
+                chartBtn.addEventListener('click', openChartModal);
+            }
+            document.getElementById('chartModalClose').addEventListener('click', closeChartModal);
+            chartModal.addEventListener('click', function(e) {
+                if (e.target === chartModal) closeChartModal();
+            });
+
+            // ================================================================
+            // 11. 页面加载时的初始标签页（放最后，确保上述模块都已就绪）
+            // ================================================================
+            if (!activateTabFromHash()) {
+                document.querySelector('.tab-btn[data-tab="home"]').classList.add('active');
+                tabContents.home.classList.add('active');
             }
 
         })();
